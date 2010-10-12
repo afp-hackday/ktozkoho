@@ -1,3 +1,5 @@
+# coding: utf-8
+
 module CSVImportable
   def csv name
     @csv_name = name
@@ -9,7 +11,7 @@ module CSVImportable
 
   def load_csv_data
     delete_all
-    
+
     csv = "#{Rails.root}/tmp/csv/#{@csv_name}"
 
     fast_import(csv, :fields_terminated_by => ',' ,
@@ -20,13 +22,14 @@ module CSVImportable
     invoke_after_import_callbacks
   end
 
-  def after_import method
+  def after_import *methods
     @after_import_callbacks ||= []
-    @after_import_callbacks << method
+    @after_import_callbacks = methods
   end
 
   def self.extended(base)
     base.extend Cleaning::CurrencyNormalizer
+    base.extend Cleaning::PartyNameNormalizer
   end
 
   private
@@ -47,6 +50,19 @@ module CSVImportable
         currency_column_update = @currency_columns.map { |c| "#{c.to_s} = #{c.to_s}/30.126" }.join(',')
 
         update_all("currency = 'EUR', #{currency_column_update}", :currency => ['Sk', 'SKK', 'Skk'])
+      end
+    end
+
+    module PartyNameNormalizer
+      def normalize_party_names
+        party_variants = {
+          'SMER' => ['Smer', 'SMER-SD'],
+          'SDKÚ' => ['SDKÚ-DS']
+        }
+
+        party_variants.each do |party, variants|
+          update_all({:party => party}, :party => variants)
+        end
       end
     end
   end

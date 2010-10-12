@@ -6,6 +6,6 @@ class Datanest::PartySponsor < ActiveRecord::Base
                'amount', 'currency', 'address', '@dummy', '@dummy',
                'party', 'year', '@dummy', '@dummy']
 
-  after_import :normalize_currency
+  after_import :normalize_currency, :normalize_party_names
 
 end
