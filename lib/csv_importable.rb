@@ -8,6 +8,8 @@ module CSVImportable
   end
 
   def load_csv_data
+    delete_all
+    
     csv = "#{Rails.root}/tmp/csv/#{@csv_name}"
 
     fast_import(csv, :fields_terminated_by => ',' ,
