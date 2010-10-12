@@ -4,7 +4,7 @@ class Datanest::PartySponsor < ActiveRecord::Base
   csv         'sponzori_stran-dump.csv'
   csv_columns ['id', 'name', 'surname', 'title', 'company', 'ico',
                'amount', 'currency', 'address', '@dummy', '@dummy',
-               'party', 'year', '@dummy', '@dummy']
+               'party', 'year']
 
   after_import :normalize_currency, :normalize_party_names
 
