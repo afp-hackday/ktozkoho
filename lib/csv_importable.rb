@@ -23,18 +23,20 @@ module CSVImportable
   end
 
   def after_import *methods
-    @after_import_callbacks ||= []
     @after_import_callbacks = methods
   end
 
   def self.extended(base)
     base.extend Cleaning::CurrencyNormalizer
     base.extend Cleaning::PartyNameNormalizer
+    base.extend Cleaning::ICONuller
+    base.extend Cleaning::EmptyColumnsToNULL
   end
 
   private
 
   def invoke_after_import_callbacks
+    @after_import_callbacks ||= []
     @after_import_callbacks.each { |callback| send callback }
   end
 
@@ -62,6 +64,20 @@ module CSVImportable
 
         party_variants.each do |party, variants|
           update_all({:party => party}, :party => variants)
+        end
+      end
+    end
+
+    module ICONuller
+      def null_icos
+        update_all("ico = NULL", :ico => 0)
+      end
+    end
+
+    module EmptyColumnsToNULL
+      def empty_columns_to_null
+        column_names.each do |column_name|
+          update_all("#{column_name} = NULL", ["#{column_name} = ?", ''])
         end
       end
     end
