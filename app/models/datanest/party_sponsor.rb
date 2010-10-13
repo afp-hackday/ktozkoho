@@ -1,6 +1,5 @@
 class Datanest::PartySponsor < ActiveRecord::Base
-  extend CSVImportable
-  extend ICOMapper
+  extend CSV::Import
 
   csv         'sponzori_stran-dump.csv'
   csv_columns ['id', 'name', 'surname', 'title', 'company', 'ico',
