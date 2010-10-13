@@ -18,6 +18,9 @@ ActiveRecord::Schema.define(:version => 20101011225430) do
     t.string  "address", :limit => 200
   end
 
+  add_index "datanest_organisations", ["name", "address"], :name => "idx_ft_name_address"
+  add_index "datanest_organisations", ["name"], :name => "index_datanest_organisations_on_name"
+
   create_table "datanest_party_sponsors", :force => true do |t|
     t.string  "name",     :limit => 100
     t.string  "surname",  :limit => 100
@@ -30,5 +33,7 @@ ActiveRecord::Schema.define(:version => 20101011225430) do
     t.string  "party",    :limit => 20
     t.integer "year"
   end
+
+  add_index "datanest_party_sponsors", ["ico"], :name => "index_datanest_party_sponsors_on_ico"
 
 end
