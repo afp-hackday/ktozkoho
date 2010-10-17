@@ -5,7 +5,8 @@ module CSV
       def normalize_party_names
         party_variants = {
           'SMER' => ['Smer', 'SMER-SD'],
-          'SDKÚ' => ['SDKÚ-DS']
+          'SDKÚ' => ['SDKÚ-DS', 'SDKU'],
+          'HZDS' => ['LS-HZDS']
         }
 
         party_variants.each do |party, variants|

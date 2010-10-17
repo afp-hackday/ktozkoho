@@ -37,7 +37,7 @@ module CSV
         best_hit = Hit.new(999, '', '')
 
         q.split(' ').map(&:strip).each do |search_term|
-          fulltext_query += " +#{search_term.gsub("'", "\'")}"
+          fulltext_query += " +#{search_term.gsub("'", '')}"
 
           sql = <<-ESQL
             SELECT ico 
