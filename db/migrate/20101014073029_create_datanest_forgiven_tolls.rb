@@ -2,10 +2,10 @@ class CreateDatanestForgivenTolls < ActiveRecord::Migration
   def self.up
     create_table :datanest_forgiven_tolls do |t|
       t.string :company, :limit => 200
-      t.string :title, :limit => 10
+      t.string :title, :limit => 20
       t.string :name, :limit => 100
       t.string :surname, :limit => 100
-      t.integer :ico
+      t.string :ico, :limit => 20
       t.string :address, :limit => 200
       t.string :zip, :limit => 10
       t.string :city, :limit => 100

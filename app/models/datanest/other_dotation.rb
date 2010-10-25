@@ -1,6 +1,6 @@
 class Datanest::OtherDotation < ActiveRecord::Base
-  extend CSV::Import
+  extend Datanest::Import
 
-  csv         'ine_dotacie-dump.csv'
-  after_import :normalize_currency, :null_icos, :empty_columns_to_null
+  csv            'ine_dotacie-dump.csv'
+  before_create  :convert_financial_attributes
 end

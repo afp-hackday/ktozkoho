@@ -1,6 +1,5 @@
 class Datanest::Organisation < ActiveRecord::Base
-  extend CSV::Import
+  extend Datanest::FastCSVImport
 
   csv         'organisations-dump.csv'
-  csv_columns ['id', 'name', 'ico', 'address']
 end

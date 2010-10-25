@@ -1,9 +1,9 @@
 class Datanest::BuildingDotation < ActiveRecord::Base
-  extend CSV::Import
+  extend Datanest::Import
 
   csv                         'dotacie_vystavba-dump.csv'
   additional_currency_columns :project_value
-  after_import                :normalize_currency, :null_icos, :empty_columns_to_null
+  before_create               :convert_financial_attributes
 
   def address
     city || ''

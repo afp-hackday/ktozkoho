@@ -2,7 +2,7 @@ class CreateDatanestBuildingDotations < ActiveRecord::Migration
   def self.up
     create_table :datanest_building_dotations do |t|
       t.string :company, :limit => 100
-      t.integer :ico
+      t.string :ico, :limit => 20
       t.string :name, :limit => 100
       t.string :surname, :limit => 100
       t.string :city, :limit => 50
@@ -13,7 +13,7 @@ class CreateDatanestBuildingDotations < ActiveRecord::Migration
       t.float :project_value
       t.string :currency, :limit => 5
       t.string :purpose, :limit => 500
-      t.string :dotation_type, :limit => 50
+      t.string :dotation_type, :limit => 200
       t.string :note, :limit => 500
       t.integer :year
       t.string :dotation_provider, :limit => 200

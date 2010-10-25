@@ -1,8 +1,8 @@
 class Datanest::Consolidation < ActiveRecord::Base
-  extend CSV::Import
+  extend Datanest::Import
 
-  csv         'konsolidacna-dump.csv'
-  after_import :normalize_currency, :null_icos, :empty_columns_to_null
+  csv           'konsolidacna-dump.csv'
+  before_create :convert_financial_attributes
 
   def address
     "#{psc} #{city}"

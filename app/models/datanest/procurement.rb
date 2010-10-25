@@ -1,6 +1,6 @@
 class Datanest::Procurement < ActiveRecord::Base
-  extend CSV::Import
+  extend Datanest::Import
 
-  csv          'procurements_2-dump.csv'
-  after_import :normalize_currency, :empty_columns_to_null
+  csv            'procurements_2-dump.csv'
+  before_create  :convert_financial_attributes
 end

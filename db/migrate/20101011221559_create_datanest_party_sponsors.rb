@@ -3,9 +3,9 @@ class CreateDatanestPartySponsors < ActiveRecord::Migration
     create_table :datanest_party_sponsors do |t|
       t.string  :name, :limit => 100
       t.string  :surname, :limit => 100
-      t.string  :title, :limit => 10
+      t.string  :title, :limit => 20
       t.string  :company, :limit => 100
-      t.integer :ico
+      t.string  :ico, :limit => 20
       t.float   :amount
       t.string  :currency, :limit => 3
       t.string  :address, :limit => 500

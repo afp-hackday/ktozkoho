@@ -1,4 +1,4 @@
-module CSV
+module Datanest
   module Cleaning
     module ICOMapper
 

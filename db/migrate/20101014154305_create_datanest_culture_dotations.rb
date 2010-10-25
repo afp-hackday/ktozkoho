@@ -1,11 +1,11 @@
 class CreateDatanestCultureDotations < ActiveRecord::Migration
   def self.up
     create_table :datanest_culture_dotations do |t|
-      t.string :title, :limit => 10
+      t.string :title, :limit => 40
       t.string :name, :limit => 100
       t.string :surname, :limit => 100
       t.string :company, :limit => 200
-      t.integer :ico
+      t.string :ico, :limit => 20
       t.string :address, :limit => 200
       t.string :city, :limit => 100
       t.string :zip, :limit => 10
@@ -19,7 +19,7 @@ class CreateDatanestCultureDotations < ActiveRecord::Migration
       t.integer :year
       t.string :note, :limit => 500
       t.string :additional_note, :limit => 500
-      t.date :contract_signed_at
+      t.date   :contract_signed_at
     end
   end
 

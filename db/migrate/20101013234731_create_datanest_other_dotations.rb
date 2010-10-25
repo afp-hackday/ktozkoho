@@ -1,11 +1,11 @@
 class CreateDatanestOtherDotations < ActiveRecord::Migration
   def self.up
     create_table :datanest_other_dotations do |t|
-      t.string  :title, :limit => 10
+      t.string  :title, :limit => 20
       t.string  :name, :limit => 50
       t.string  :surname, :limit => 50
       t.string  :company, :limit => 200
-      t.integer :ico
+      t.string  :ico, :limit => 20
       t.string  :address, :limit => 200
       t.string  :mediator_company, :limit => 200
       t.float   :amount
@@ -16,7 +16,7 @@ class CreateDatanestOtherDotations < ActiveRecord::Migration
       t.string  :purpose, :limit => 500
       t.string  :note, :limit => 500
       t.string  :provider, :limit => 200
-      t.string  :dotation_type, :limit => 100
+      t.string  :dotation_type, :limit => 400
       t.string  :project_number, :limit => 50
       t.string  :additional_note, :limit => 500
       t.date    :accepted_at

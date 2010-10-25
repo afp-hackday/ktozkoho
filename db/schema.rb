@@ -13,11 +13,11 @@
 ActiveRecord::Schema.define(:version => 20101014184926) do
 
   create_table "datanest_agro_dotations", :force => true do |t|
-    t.string  "title",               :limit => 10
+    t.string  "title",               :limit => 20
     t.string  "name",                :limit => 100
     t.string  "surname",             :limit => 100
     t.string  "company",             :limit => 200
-    t.integer "ico"
+    t.string  "ico",                 :limit => 20
     t.string  "address",             :limit => 500
     t.string  "zip",                 :limit => 10
     t.string  "city",                :limit => 50
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
 
   create_table "datanest_building_dotations", :force => true do |t|
     t.string  "company",                      :limit => 100
-    t.integer "ico"
+    t.string  "ico",                          :limit => 20
     t.string  "name",                         :limit => 100
     t.string  "surname",                      :limit => 100
     t.string  "city",                         :limit => 50
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
     t.float   "project_value"
     t.string  "currency",                     :limit => 5
     t.string  "purpose",                      :limit => 500
-    t.string  "dotation_type",                :limit => 50
+    t.string  "dotation_type",                :limit => 200
     t.string  "note",                         :limit => 500
     t.integer "year"
     t.string  "dotation_provider",            :limit => 200
@@ -62,31 +62,31 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
   end
 
   create_table "datanest_consolidations", :force => true do |t|
-    t.string  "company",      :limit => 200
-    t.integer "ico"
-    t.string  "title",        :limit => 10
-    t.string  "name",         :limit => 100
-    t.string  "surname",      :limit => 100
-    t.string  "city",         :limit => 50
-    t.string  "name2",        :limit => 100
-    t.float   "amount"
-    t.string  "currency",     :limit => 5
-    t.string  "note",         :limit => 500
-    t.date    "updated_at"
-    t.string  "legal_form",   :limit => 50
-    t.string  "asset_number"
-    t.string  "psc",          :limit => 10
-    t.string  "surname2",     :limit => 100
-    t.string  "name3",        :limit => 100
-    t.string  "surname3",     :limit => 100
+    t.string "company",      :limit => 200
+    t.string "ico",          :limit => 20
+    t.string "title",        :limit => 20
+    t.string "name",         :limit => 100
+    t.string "surname",      :limit => 100
+    t.string "city",         :limit => 50
+    t.string "name2",        :limit => 100
+    t.float  "amount"
+    t.string "currency",     :limit => 5
+    t.string "note",         :limit => 500
+    t.date   "updated_at"
+    t.string "legal_form",   :limit => 50
+    t.string "asset_number"
+    t.string "psc",          :limit => 10
+    t.string "surname2",     :limit => 100
+    t.string "name3",        :limit => 100
+    t.string "surname3",     :limit => 100
   end
 
   create_table "datanest_culture_dotations", :force => true do |t|
-    t.string  "title",              :limit => 10
+    t.string  "title",              :limit => 40
     t.string  "name",               :limit => 100
     t.string  "surname",            :limit => 100
     t.string  "company",            :limit => 200
-    t.integer "ico"
+    t.string  "ico",                :limit => 20
     t.string  "address",            :limit => 200
     t.string  "city",               :limit => 100
     t.string  "zip",                :limit => 10
@@ -104,14 +104,14 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
   end
 
   create_table "datanest_eurofonds", :force => true do |t|
-    t.string  "title",                  :limit => 10
+    t.string  "title",                  :limit => 50
     t.string  "name",                   :limit => 100
     t.string  "surname",                :limit => 100
     t.string  "company",                :limit => 200
-    t.integer "ico"
+    t.string  "ico",                    :limit => 50
     t.string  "address",                :limit => 200
     t.string  "city",                   :limit => 100
-    t.string  "zip",                    :limit => 10
+    t.string  "zip",                    :limit => 40
     t.float   "requested_amount"
     t.float   "grant_amount"
     t.float   "accepted_amount"
@@ -122,19 +122,19 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
     t.float   "used_amount"
     t.string  "currency",               :limit => 5
     t.float   "receiver_share_amount"
-    t.string  "dotation_provider",      :limit => 100
-    t.string  "via",                    :limit => 100
-    t.string  "resort",                 :limit => 100
+    t.string  "dotation_provider",      :limit => 200
+    t.string  "via",                    :limit => 200
+    t.string  "resort",                 :limit => 200
     t.date    "commitee_meeting_at"
     t.date    "request_accepted_at"
     t.date    "decided_at"
     t.date    "granted_at"
-    t.integer "registration_number"
+    t.string  "registration_number",    :limit => 100
     t.string  "purpose",                :limit => 500
     t.string  "source",                 :limit => 500
-    t.string  "program",                :limit => 100
-    t.string  "dotation_type",          :limit => 100
-    t.string  "fund_name",              :limit => 100
+    t.string  "program",                :limit => 500
+    t.string  "dotation_type",          :limit => 500
+    t.string  "fund_name",              :limit => 500
     t.string  "decision_number",        :limit => 100
     t.string  "region",                 :limit => 100
     t.string  "note",                   :limit => 500
@@ -146,10 +146,10 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
 
   create_table "datanest_forgiven_tolls", :force => true do |t|
     t.string  "company",         :limit => 200
-    t.string  "title",           :limit => 10
+    t.string  "title",           :limit => 20
     t.string  "name",            :limit => 100
     t.string  "surname",         :limit => 100
-    t.integer "ico"
+    t.string  "ico",             :limit => 20
     t.string  "address",         :limit => 200
     t.string  "zip",             :limit => 10
     t.string  "city",            :limit => 100
@@ -163,17 +163,27 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
   end
 
   create_table "datanest_organisations", :force => true do |t|
-    t.string  "name",    :limit => 100
-    t.integer "ico"
-    t.string  "address", :limit => 200
+    t.string "name",           :limit => 1000
+    t.string "ico",            :limit => 20
+    t.string "address",        :limit => 200
+    t.string "legal_form",     :limit => 200
+    t.string "region",         :limit => 100
+    t.string "date_start",     :limit => 20
+    t.string "date_end",       :limit => 20
+    t.text   "activity1"
+    t.text   "activity2"
+    t.string "account_sector", :limit => 200
+    t.string "ownership",      :limit => 100
+    t.string "size",           :limit => 100
+    t.string "source_url",     :limit => 4000
   end
 
   create_table "datanest_other_dotations", :force => true do |t|
-    t.string  "title",            :limit => 10
+    t.string  "title",            :limit => 20
     t.string  "name",             :limit => 50
     t.string  "surname",          :limit => 50
     t.string  "company",          :limit => 200
-    t.integer "ico"
+    t.string  "ico",              :limit => 20
     t.string  "address",          :limit => 200
     t.string  "mediator_company", :limit => 200
     t.float   "amount"
@@ -184,7 +194,7 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
     t.string  "purpose",          :limit => 500
     t.string  "note",             :limit => 500
     t.string  "provider",         :limit => 200
-    t.string  "dotation_type",    :limit => 100
+    t.string  "dotation_type",    :limit => 400
     t.string  "project_number",   :limit => 50
     t.string  "additional_note",  :limit => 500
     t.date    "accepted_at"
@@ -192,11 +202,11 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
   end
 
   create_table "datanest_party_loans", :force => true do |t|
-    t.string  "title",       :limit => 10
+    t.string  "title",       :limit => 20
     t.string  "name",        :limit => 100
     t.string  "surname",     :limit => 100
     t.string  "company",     :limit => 200
-    t.integer "ico"
+    t.string  "ico",         :limit => 20
     t.string  "zip",         :limit => 10
     t.string  "city",        :limit => 100
     t.float   "amount"
@@ -212,9 +222,9 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
   create_table "datanest_party_sponsors", :force => true do |t|
     t.string  "name",        :limit => 100
     t.string  "surname",     :limit => 100
-    t.string  "title",       :limit => 10
+    t.string  "title",       :limit => 20
     t.string  "company",     :limit => 100
-    t.integer "ico"
+    t.string  "ico",         :limit => 20
     t.float   "amount"
     t.string  "currency",    :limit => 3
     t.string  "address",     :limit => 500
@@ -227,41 +237,41 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
   end
 
   create_table "datanest_privatizations", :force => true do |t|
-    t.string  "privatized_comapny",         :limit => 100
-    t.string  "privatized_company_address", :limit => 100
-    t.float   "estimate_amount"
-    t.integer "share"
-    t.string  "company",                    :limit => 100
-    t.string  "name",                       :limit => 100
-    t.string  "surname",                    :limit => 100
-    t.string  "title",                      :limit => 10
-    t.string  "address",                    :limit => 100
-    t.float   "price_amount"
-    t.string  "currency",                   :limit => 5
-    t.date    "sold_at"
-    t.string  "privatization_form",         :limit => 100
-    t.string  "seller",                     :limit => 100
-    t.string  "note",                       :limit => 500
+    t.string "privatized_comapny",         :limit => 100
+    t.string "privatized_company_address", :limit => 100
+    t.float  "estimate_amount"
+    t.string "share",                      :limit => 50
+    t.string "company",                    :limit => 100
+    t.string "name",                       :limit => 100
+    t.string "surname",                    :limit => 100
+    t.string "title",                      :limit => 20
+    t.string "address",                    :limit => 100
+    t.float  "price_amount"
+    t.string "currency",                   :limit => 5
+    t.date   "sold_at"
+    t.string "privatization_form",         :limit => 100
+    t.string "seller",                     :limit => 100
+    t.string "note",                       :limit => 500
   end
 
   create_table "datanest_procurements", :force => true do |t|
     t.integer "record_id"
     t.integer "year"
     t.integer "bulletin_id"
-    t.integer "procurement_id"
+    t.string  "procurement_id",        :limit => 100
     t.integer "customer_ico"
-    t.string  "customer_company_name", :limit => 100
-    t.integer "supplier_ico"
+    t.string  "customer_company_name", :limit => 1000
+    t.string  "supplier_ico",          :limit => 20
     t.string  "supplier_company_name", :limit => 100
     t.string  "supplier_region",       :limit => 100
-    t.string  "procurement_subject",   :limit => 200
+    t.text    "procurement_subject"
     t.float   "price_amount"
-    t.string  "currency",              :limit => 5
+    t.string  "currency",              :limit => 50
     t.boolean "is_VAT_included"
-    t.string  "customer_ico_evidence", :limit => 100
-    t.string  "supplier_ico_evidence", :limit => 100
-    t.string  "subject_evidence",      :limit => 100
-    t.string  "price_evidence",        :limit => 100
+    t.text    "customer_ico_evidence"
+    t.text    "supplier_ico_evidence"
+    t.text    "subject_evidence"
+    t.text    "price_evidence"
     t.integer "procurement_type_id"
     t.integer "document_id"
     t.string  "source_url",            :limit => 1000

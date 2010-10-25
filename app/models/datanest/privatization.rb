@@ -1,6 +1,6 @@
 class Datanest::Privatization < ActiveRecord::Base
-  extend CSV::Import
+  extend Datanest::Import
 
-  csv          'privatizacia_predaje-dump.csv'
-  after_import :normalize_currency, :empty_columns_to_null
+  csv            'privatizacia_predaje-dump.csv'
+  before_create  :convert_financial_attributes
 end
