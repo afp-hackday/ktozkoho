@@ -6,8 +6,9 @@ gem 'rails', '3.0.0'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
-gem 'activerecord-fast-import'
+gem 'pg'
 
+gem 'nokogiri'
 # Use unicorn as the web server
 # gem 'unicorn'
 
