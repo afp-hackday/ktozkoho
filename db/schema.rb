@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101014184926) do
+ActiveRecord::Schema.define(:version => 20101026212011) do
 
   create_table "datanest_agro_dotations", :force => true do |t|
     t.string  "title",               :limit => 20
@@ -162,6 +162,20 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
     t.string  "additional_note", :limit => 500
   end
 
+  create_table "datanest_organisation_addresses", :force => true do |t|
+    t.string   "address",         :limit => 100
+    t.integer  "organisation_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "datanest_organisation_name_histories", :force => true do |t|
+    t.string   "name",            :limit => 1000
+    t.integer  "organisation_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "datanest_organisations", :force => true do |t|
     t.string "name",           :limit => 1000
     t.string "ico",            :limit => 20
@@ -177,6 +191,8 @@ ActiveRecord::Schema.define(:version => 20101014184926) do
     t.string "size",           :limit => 100
     t.string "source_url",     :limit => 4000
   end
+
+  add_index "datanest_organisations", ["name"], :name => "index_datanest_organisations_on_name_trgm"
 
   create_table "datanest_other_dotations", :force => true do |t|
     t.string  "title",            :limit => 20

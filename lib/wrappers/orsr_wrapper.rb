@@ -12,7 +12,16 @@ module Wrappers
     def self.load_historical_data
       Datanest::Organisation.find_each do |organisation|
         historical_data = load_historical_data_for_organisation organisation
-        puts "#{organisation.name}, : #{historical_data.addresses} : #{historical_data.names}"
+
+        historical_data.addresses.each do |addr|
+          organisation.addresses << Datanest::OrganisationAddress.new(:address => addr)
+        end if historical_data.addresses
+
+        historical_data.names.each do |addr|
+          organisation.name_histories << Datanest::OrganisationNameHistory.new(:name => addr)
+        end if historical_data.names
+
+        organisation.save
       end
     end
 
