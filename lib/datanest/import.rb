@@ -21,6 +21,7 @@ module Datanest
       base.extend Datanest::Cleaning::FinancialAttributes::ClassMethods
       base.send :include, Datanest::Cleaning::FinancialAttributes::InstanceMethods
       base.send :include, Datanest::Cleaning::PartyNames
+      base.send :include, Datanest::Cleaning::OrganisationMapper
     end
   end
 end
