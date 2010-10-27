@@ -3,7 +3,7 @@ class Datanest::BuildingDotation < ActiveRecord::Base
 
   csv                         'dotacie_vystavba-dump.csv'
   additional_currency_columns :project_value
-  before_create               :convert_financial_attributes
+  before_create               :convert_financial_attributes, :empty_attributes_to_null
 
   def address
     city || ''

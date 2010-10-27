@@ -22,6 +22,7 @@ module Datanest
       base.send :include, Datanest::Cleaning::FinancialAttributes::InstanceMethods
       base.send :include, Datanest::Cleaning::PartyNames
       base.send :include, Datanest::Cleaning::OrganisationMapper
+      base.send :include, Datanest::Cleaning::EmptyAttributesToNull
     end
   end
 end
