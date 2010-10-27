@@ -1,4 +1,5 @@
 namespace :datanest do
+
   desc "Load datanest CSV files into tables"
   task :reload => :environment do
     puts "Loading AgroDotations.."
@@ -25,5 +26,10 @@ namespace :datanest do
     Datanest::Privatization.load_csv_data
     puts "Loading Procurements.."
     Datanest::Procurement.load_csv_data
+  end
+
+  desc "Reloads historical addresses and names for organisations"
+  task :historical_data => :environment do
+    Wrappers::ORSRWrapper.reload_historical_data
   end
 end
