@@ -2,30 +2,41 @@
 require 'open-uri'
 
 module Wrappers
-  class ORSRWrapper
+  module ORSRWrapper
+    extend self
 
     HistoricalData = Struct.new(:addresses, :names, :evidence_url)
 
     ORSR_URL = "http://orsr.sk"
     ORSR_ICO_SEARCH = "http://orsr.sk/hladaj_ico.asp?SID=0&ICO="
 
-    def self.load_historical_data
+    def reload_historical_data
+
+      Datanest::OrganisationAddress.delete_all
+      Datanest::OrganisationNameHistory.delete_all
+
       Datanest::Organisation.find_each do |organisation|
-        historical_data = load_historical_data_for_organisation organisation
-
-        historical_data.addresses.each do |addr|
-          organisation.addresses << Datanest::OrganisationAddress.new(:address => addr)
-        end if historical_data.addresses
-
-        historical_data.names.each do |addr|
-          organisation.name_histories << Datanest::OrganisationNameHistory.new(:name => addr)
-        end if historical_data.names
-
-        organisation.save
+        reload_historical_data_for_organisation(organisation)
       end
     end
 
-    def self.load_historical_data_for_organisation organisation
+    def reload_historical_data_for_organisation organisation
+      historical_data = load_historical_data_for_organisation organisation
+
+      historical_data.addresses.each do |addr|
+        organisation.addresses << Datanest::OrganisationAddress.new(:address => addr)
+      end if historical_data.addresses
+
+      historical_data.names.each do |addr|
+        organisation.name_histories << Datanest::OrganisationNameHistory.new(:name => addr)
+      end if historical_data.names
+
+      organisation.save
+    end
+
+    handle_asynchronously :reload_historical_data_for_organisation
+
+    def load_historical_data_for_organisation organisation
       Nokogiri::HTML(open(create_search_url organisation.ico)).search('a.link').each do |element|
         if element.content == 'Úplný'
           return follow_search_result element['href']
@@ -35,11 +46,11 @@ module Wrappers
       HistoricalData.new
     end
 
-    def self.create_search_url ico
+    def create_search_url ico
       ORSR_ICO_SEARCH + ico
     end
 
-    def self.follow_search_result url
+    def follow_search_result url
       historical_data = HistoricalData.new
       historical_data.evidence_url = url
 
@@ -55,7 +66,7 @@ module Wrappers
       historical_data
     end
 
-    def self.scrape_addresses table
+    def scrape_addresses table
       addresses = []
 
       table.search('tr > td[2] > table').each do |address_table|
@@ -78,7 +89,7 @@ module Wrappers
       addresses
     end
 
-    def self.scrape_names table
+    def scrape_names table
       names = []
 
       table.search('tr > td[2] > table').each do |names_table|
