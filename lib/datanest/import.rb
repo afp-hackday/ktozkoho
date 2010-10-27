@@ -2,19 +2,10 @@ require 'csv'
 
 module Datanest
   module Import
-    include CSVImportBase
 
     def load_csv_data
       delete_all
-
-      CSV.foreach("#{Rails.root}/tmp/csv/#{@csv_name}", :headers => true, :encoding => 'utf-8') do |row|
-        attributes_update = {}
-        column_names.each_with_index do |column, idx|
-          attributes_update[column] = row[idx]
-        end
-
-        self.new(attributes_update).save
-      end
+      load_csvs
     end
 
     def self.extended(base)
@@ -23,6 +14,36 @@ module Datanest
       base.send :include, Datanest::Cleaning::PartyNames
       base.send :include, Datanest::Cleaning::OrganisationMapper
       base.send :include, Datanest::Cleaning::EmptyAttributesToNull
+    end
+
+    @csvs = []
+    AdditionalCSV = Struct.new(:path, :mapping)
+
+    def csv path, column_mapping = nil
+      @csvs ||= []
+      column_mapping = default_mapping if column_mapping.nil?
+      @csvs << AdditionalCSV.new(path, column_mapping)
+    end
+
+    def default_mapping
+      default_mapping = {}
+      column_names.each_with_index { |column, index| default_mapping[column] = index }
+      default_mapping
+    end
+
+    private
+
+    def load_csvs
+      puts @csvs
+
+      @csvs.each do |csv|
+        attributes_update = {}
+        CSV.foreach("#{Rails.root}/tmp/csv/#{csv.path}", :headers => true, :encoding => 'utf-8') do |row|
+          csv.mapping.each { |column, index| attributes_update[column] = row[index] }
+
+          self.new(attributes_update).save
+        end
+      end
     end
   end
 end

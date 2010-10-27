@@ -1,6 +1,9 @@
 module Datanest
   module FastCSVImport
-    include CSVImportBase
+
+    def csv name
+      @csv_name = name
+    end
 
     def load_csv_data
       delete_all
