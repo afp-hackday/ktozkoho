@@ -30,7 +30,7 @@ module Datanest
           }
 
           currency_columns.each do |column|
-            next if self[:currency] == 'EUR' or self[:currency].empty?
+            next if self[:currency] == 'EUR' or self[:currency].nil? or self[:currency].empty?
 
             unless exchange[self[:currency]].nil?
               self[column] = self[column] / exchange[self[:currency]] unless self[column].nil?
