@@ -15,7 +15,7 @@ module Wrappers
       Datanest::OrganisationAddress.delete_all
       Datanest::OrganisationNameHistory.delete_all
 
-      Datanest::Organisation.find_each do |organisation|
+      Datanest::Organisation.find_each(:conditions => "legal_form != 'Podnikateľ-fyzická osoba-nezapísaný v obchodnom registri'") do |organisation|
         reload_historical_data_for_organisation(organisation)
       end
     end
