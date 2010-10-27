@@ -83,7 +83,10 @@ module Wrappers
           end
         end
 
-        addresses << "#{street.join(' ')}, #{city.join(' ')}"
+        address = "#{street.join(' ')}"
+        address += ", #{city.join(' ')}" unless city.empty?
+
+        addresses << address
       end
 
       addresses
