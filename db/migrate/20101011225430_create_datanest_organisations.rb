@@ -6,10 +6,10 @@ class CreateDatanestOrganisations < ActiveRecord::Migration
       t.string :address, :limit => 200
       t.string :legal_form, :limit => 200
       t.string :region, :limit => 100
-      t.string :date_start, :limit => 20
-      t.string :date_end, :limit => 20
-      t.text :activity1
-      t.text :activity2
+      t.date   :started_at
+      t.date   :ended_at
+      t.text   :activity1
+      t.text   :activity2
       t.string :account_sector, :limit => 200
       t.string :ownership, :limit => 100
       t.string :size, :limit => 100

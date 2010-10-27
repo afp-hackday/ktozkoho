@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101026212011) do
+ActiveRecord::Schema.define(:version => 20101026215926) do
 
   create_table "datanest_agro_dotations", :force => true do |t|
     t.string  "title",               :limit => 20
@@ -182,8 +182,8 @@ ActiveRecord::Schema.define(:version => 20101026212011) do
     t.string "address",        :limit => 200
     t.string "legal_form",     :limit => 200
     t.string "region",         :limit => 100
-    t.string "date_start",     :limit => 20
-    t.string "date_end",       :limit => 20
+    t.date   "started_at"
+    t.date   "ended_at"
     t.text   "activity1"
     t.text   "activity2"
     t.string "account_sector", :limit => 200
@@ -191,8 +191,6 @@ ActiveRecord::Schema.define(:version => 20101026212011) do
     t.string "size",           :limit => 100
     t.string "source_url",     :limit => 4000
   end
-
-  add_index "datanest_organisations", ["name"], :name => "index_datanest_organisations_on_name_trgm"
 
   create_table "datanest_other_dotations", :force => true do |t|
     t.string  "title",            :limit => 20
@@ -293,5 +291,20 @@ ActiveRecord::Schema.define(:version => 20101026212011) do
     t.string  "source_url",            :limit => 1000
     t.string  "batch_record_code",     :limit => 200
   end
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
 end
