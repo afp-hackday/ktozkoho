@@ -5,3 +5,9 @@ require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
 Investitions::Application.load_tasks
+
+begin
+  require 'delayed/tasks'
+rescue LoadError
+  STDERR.puts "Run `bundle:install` to install delayed_job"
+end

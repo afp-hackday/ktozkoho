@@ -9,6 +9,7 @@ gem 'mysql2'
 gem 'pg'
 
 gem 'nokogiri'
+gem 'delayed_job', '2.1.0.pre2'
 # Use unicorn as the web server
 # gem 'unicorn'
 
