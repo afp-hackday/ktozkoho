@@ -30,26 +30,39 @@ function ManualMapping(start_buffer) {
   next_candidate = function() {
     current = buffer.pop()
 
-    $("#company").text(current["company"])
-    $("#current_address").text(current["address"])
+    $("#company").text(current["company"] || '')
+    $("#current_address").text(current["address"] || '')
 
     for(i = 0; i < 5; i++) {
       if(i < current.best_candidates.length) {
         name_address = current.best_candidates[i]["name"] + "; " + current.best_candidates[i]["address"]
-          visibility = "visible"
+        historical_addresses = build_historical_addresses_html(current.best_candidates[i]["addresses"])
+        visibility = "visible"
       } else {
         name_address = ""
-          visibility = "hidden"
+        visibility = "hidden"
+        historical_addresses = ''
       }
 
-      $("#candidate" + i).text(name_address).css("visibility", visibility)
+      $("#candidate" + i).text(name_address).append(historical_addresses).css("visibility", visibility)
     }
+
+    load_buffer_if_neccessary()
   }
   this.next_candidate = next_candidate
 
+  build_historical_addresses_html = function(addresses) {
+    lis = ''
+    $.each(addresses, function(index, address) {
+      lis += '<li>' + address["address"] + '</li>'
+    })
+    return '<ul>' + lis + '</ul>'
+  }
+
   setup_keyboard_control = function() {
     $(document).keypress(function (event) {
-      if(loading) return
+        alert(event.which)
+//if(loading) return
 
       if(keycode_map[event.which]) {
         if(buffer.length > 0) {
@@ -80,5 +93,11 @@ function ManualMapping(start_buffer) {
       stop_loading()
       next_candidate()
     });
+  }
+
+  load_buffer_if_neccessary = function() {
+    if(buffer.length < 10) {
+      load_buffer()
+    }
   }
 }

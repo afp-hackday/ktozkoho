@@ -7,13 +7,15 @@ class Datanest::PartySponsor < ActiveRecord::Base
   scope :companies, where('company IS NOT NULL')
   scope :not_locked, where('locked_at IS NULL OR locked_at < ?', Time.now - 20.minutes)
 
-  def best_candidates
-    Datanest::Organisation.where('name % ? AND address % ?', self[:company], self[:address])
-                          .order("similarity(name, '#{company}') DESC")
-                          .limit(5)
-  end
+  has_many :best_candidates, :class_name => 'Datanest::Organisation', :finder_sql =>
+           'SELECT *
+              FROM datanest_organisations
+             WHERE name % \'#{company}\'
+               AND address % \'#{address}\'
+             ORDER BY similarity(name, \'#{company}\') DESC
+             LIMIT 5'
 
-  def self.find_and_lock_unmapped(limit = 10)
+  def self.find_and_lock_unmapped(limit = 5)
     unlocked = []
 
     transaction do
