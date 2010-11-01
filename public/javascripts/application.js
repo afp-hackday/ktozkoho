@@ -1,12 +1,13 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 $(document).ready(function() {
-  mapping = new ManualMapping(unmapped_entities_buffer)
+  mapping = new ManualMapping(unmapped_entities_buffer, 9)
   mapping.start()
 });
 
-function ManualMapping(start_buffer) {
-  var buffer = start_buffer
+function ManualMapping(buffer, maintain_buffer_size) {
+  var buffer = buffer
+  var maintain_buffer_size = maintain_buffer_size
   this.buffer = buffer
 
   var loading = false
@@ -113,7 +114,7 @@ function ManualMapping(start_buffer) {
   }
 
   load_buffer_if_neccessary = function() {
-    if(buffer.length < 10) {
+    if(buffer.length < maintain_buffer_size) {
       load_buffer()
     }
   }
