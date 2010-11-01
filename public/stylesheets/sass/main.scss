@@ -1,0 +1,78 @@
+body {
+  font-family: Georgia, sans
+}
+
+strong {
+  font-weight: bolder;
+}
+
+em {
+  font-style: italic;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 0.4em;
+}
+
+ol {
+  > li {
+    list-style: decimal outside none;
+    margin-left: 2em;
+  }
+}
+
+#mapping {
+  $font-size: 17px;
+
+  margin-left: 1em;
+  width: 60%;
+
+  #company {
+    margin: 0pt;
+  }
+
+  #current_address {
+    margin: 0pt;
+  }
+
+  .candidate {
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid black;
+  }
+
+  #candidates > li {
+    font-size: $font-size * 2;
+  }
+
+  .company {
+    font-size: $font-size;
+  }
+
+  .addresses {
+    font-size: $font-size;
+    list-style-type: none;
+    margin: 0pt;
+    margin-top: 0.5em;
+    padding: 0pt;
+
+    li {
+      margin: 0pt;
+    }
+  }
+  .addresses li:before {
+    content: "- ";
+  }
+}
+
+#loading {
+  background: white url('/images/loader.gif') center center no-repeat;
+  border: 2px solid black;
+  text-align: center;
+  position: absolute;
+  top: 13em;
+  left: 20em;
+  width: 16em;
+  padding-top: 3em;
+  padding-bottom: 1em;
+}

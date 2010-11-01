@@ -36,8 +36,8 @@ function ManualMapping(buffer, maintain_buffer_size) {
 
     for(i = 0; i < 5; i++) {
       if(i < current.best_candidates.length) {
-        name_address = current.best_candidates[i]["name"] + "; " + current.best_candidates[i]["address"]
-        historical_addresses = build_historical_addresses_html(current.best_candidates[i]["addresses"])
+        name_address = build_company_info_html(current.best_candidates[i])
+        historical_addresses = build_addresses_html(current.best_candidates[i])
         visibility = "visible"
       } else {
         name_address = ""
@@ -45,19 +45,31 @@ function ManualMapping(buffer, maintain_buffer_size) {
         historical_addresses = ''
       }
 
-      $("#candidate" + i).text(name_address).append(historical_addresses).css("visibility", visibility)
+      $("#candidate" + i).empty().append(name_address).append(historical_addresses).css("visibility", visibility)
     }
 
     load_buffer_if_neccessary()
   }
   this.next_candidate = next_candidate
 
-  build_historical_addresses_html = function(addresses) {
+  build_company_info_html = function(subject) {
+    html = '<strong class="company">'
+    html += subject["name"]
+    html += '</strong>'
+    return html
+  }
+
+  build_addresses_html = function(subject) {
     lis = ''
-    $.each(addresses, function(index, address) {
-      lis += '<li>' + address["address"] + '</li>'
-    })
-    return '<ul>' + lis + '</ul>'
+    lis += '<li>' + subject.address + '</li>'
+
+    if(subject["addresses"].length > 1) {
+      $.each(subject["addresses"], function(index, address) {
+        lis += '<li>' + address["address"] + '</li>'
+      })
+    }
+
+    return '<ul class="addresses">' + lis + '</ul>'
   }
 
   setup_keyboard_control = function() {
