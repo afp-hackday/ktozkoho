@@ -1,6 +1,5 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
-
 $(document).ready(function() {
   mapping = new ManualMapping(unmapped_entities_buffer)
   mapping.start()
@@ -11,7 +10,7 @@ function ManualMapping(start_buffer) {
   this.buffer = buffer
 
   var loading = false
-  var loading_notification = false
+  var waiting_for_buffer = false
 
   var keycode_map = {
     48: 0,
@@ -23,7 +22,7 @@ function ManualMapping(start_buffer) {
   }
 
   this.start = function() {
-    loading_notification_stop()
+    waiting_for_buffer_stop()
     setup_keyboard_control()
     next_candidate()
   }
@@ -62,7 +61,7 @@ function ManualMapping(start_buffer) {
 
   setup_keyboard_control = function() {
     $(document).keypress(function (event) {
-      if(loading_notification) return
+      if(waiting_for_buffer) return
 
       if(keycode_map[event.which]) {
         if(buffer.length > 0) {
@@ -74,30 +73,43 @@ function ManualMapping(start_buffer) {
     })
   }
 
-  loading_notification_start = function() {
-    loading_notification = true
+  waiting_for_buffer_start = function() {
+    waiting_for_buffer = true
     $("#loading").show()
   }
 
-  loading_notification_stop = function() {
-    loading_notification = false
+  waiting_for_buffer_stop = function() {
+    waiting_for_buffer = false
     $("#loading").hide()
   }
 
   load_buffer = function() {
-    if(buffer.length == 0) loading_notification_start()
+    if(buffer.length == 0) waiting_for_buffer_start()
     if(loading) return
 
     loading = true
-    $.getJSON('load_entities', {}, function(data, textStatus) {
-      $.each(data, function(index, element) {
-        buffer.push(element);
-      })
+    $.getJSON('load_entities', {}, new_data_received_callback)
+  }
 
-      loading = false
-      if(loading_notification) next_candidate()
-      loading_notification_stop()
-    });
+  new_data_received_callback = function(data, textStatus) {
+    loading = false
+
+    $.each(data, function(index, element) {
+      buffer.push(element);
+    })
+
+    next_or_finish_if_waiting(data)
+    waiting_for_buffer_stop()
+  }
+
+  next_or_finish_if_waiting = function(data) {
+    if(waiting_for_buffer) {
+      if(data.length > 0) {
+        next_candidate()
+      } else {
+        alert('Hotovo')
+      }
+    }
   }
 
   load_buffer_if_neccessary = function() {
