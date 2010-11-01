@@ -11,6 +11,7 @@ function ManualMapping(start_buffer) {
   this.buffer = buffer
 
   var loading = false
+  var loading_notification = false
 
   var keycode_map = {
     48: 0,
@@ -22,7 +23,7 @@ function ManualMapping(start_buffer) {
   }
 
   this.start = function() {
-    stop_loading()
+    loading_notification_stop()
     setup_keyboard_control()
     next_candidate()
   }
@@ -61,8 +62,7 @@ function ManualMapping(start_buffer) {
 
   setup_keyboard_control = function() {
     $(document).keypress(function (event) {
-        alert(event.which)
-//if(loading) return
+      if(loading_notification) return
 
       if(keycode_map[event.which]) {
         if(buffer.length > 0) {
@@ -74,24 +74,29 @@ function ManualMapping(start_buffer) {
     })
   }
 
-  start_loading = function() {
-    loading = true
+  loading_notification_start = function() {
+    loading_notification = true
     $("#loading").show()
   }
 
-  stop_loading = function() {
-    loading = false
+  loading_notification_stop = function() {
+    loading_notification = false
     $("#loading").hide()
   }
 
   load_buffer = function() {
-    start_loading()
+    if(buffer.length == 0) loading_notification_start()
+    if(loading) return
+
+    loading = true
     $.getJSON('load_entities', {}, function(data, textStatus) {
       $.each(data, function(index, element) {
         buffer.push(element);
       })
-      stop_loading()
-      next_candidate()
+
+      loading = false
+      if(loading_notification) next_candidate()
+      loading_notification_stop()
     });
   }
 

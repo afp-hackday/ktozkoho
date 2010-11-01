@@ -16,6 +16,7 @@ class Datanest::PartySponsor < ActiveRecord::Base
              LIMIT 5'
 
   def self.find_and_lock_unmapped(limit = 5)
+    limit = 5 if limit.nil?
     unlocked = []
 
     transaction do
