@@ -80,11 +80,12 @@ function ManualMapping(buffer, maintain_buffer_size) {
       if(typeof keycode_map[event.which] != 'undefined') {
         if(current.best_candidates.length < keycode_map[event.which]) return
 
+        $("#candidate" + (keycode_map[event.which] - 1)).css('background-color', '#ffffcc')
+
         if(buffer.length > 0) {
-          $("#candidate" + (keycode_map[event.which] - 1)).css('background-color', '#ffffcc')
           setTimeout('next_candidate()', 200)
         } else {
-          load_buffer()
+          setTimeout('load_buffer()', 200)
         }
       }
     })
