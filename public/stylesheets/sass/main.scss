@@ -17,15 +17,14 @@ h1 {
 
 ol {
   > li {
-    list-style: decimal outside none;
-    margin-left: 2em;
+    list-style: decimal inside none;
   }
 }
 
 #mapping {
   $font-size: 17px;
 
-  margin-left: 1em;
+  margin: 1em;
   width: 60%;
 
   #company {
@@ -54,6 +53,7 @@ ol {
     list-style-type: none;
     margin: 0pt;
     margin-top: 0.5em;
+    margin-left: 1em;
     padding: 0pt;
 
     li {

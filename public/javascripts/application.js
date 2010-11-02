@@ -45,7 +45,7 @@ function ManualMapping(buffer, maintain_buffer_size) {
         historical_addresses = ''
       }
 
-      $("#candidate" + i).empty().append(name_address).append(historical_addresses).css("visibility", visibility)
+      $("#candidate" + i).empty().append(name_address).append(historical_addresses).css("visibility", visibility).css('background-color', '')
     }
 
     load_buffer_if_neccessary()
@@ -78,7 +78,8 @@ function ManualMapping(buffer, maintain_buffer_size) {
 
       if(keycode_map[event.which]) {
         if(buffer.length > 0) {
-          next_candidate()
+          $("#candidate" + (keycode_map[event.which] - 1)).css('background-color', '#ffffcc')
+          setTimeout('next_candidate()', 200)
         } else {
           load_buffer()
         }
