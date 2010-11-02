@@ -93,11 +93,13 @@ function ManualMapping(buffer, maintain_buffer_size, entity_type) {
 
   waiting_for_buffer_start = function() {
     waiting_for_buffer = true
+    $("#mapping").hide()
     $("#loading").show()
   }
 
   waiting_for_buffer_stop = function() {
     waiting_for_buffer = false
+    $("#mapping").show()
     $("#loading").hide()
   }
 
