@@ -76,7 +76,7 @@ function ManualMapping(buffer, maintain_buffer_size) {
     $(document).keypress(function (event) {
       if(waiting_for_buffer) return
 
-      if(keycode_map[event.which]) {
+      if(typeof keycode_map[event.which] != 'undefined') {
         if(buffer.length > 0) {
           $("#candidate" + (keycode_map[event.which] - 1)).css('background-color', '#ffffcc')
           setTimeout('next_candidate()', 200)
