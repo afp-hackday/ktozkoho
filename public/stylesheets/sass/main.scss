@@ -26,6 +26,7 @@ ol {
 
   margin: 1em;
   width: 60%;
+  float: left;
 
   #company {
     margin: 0pt;
@@ -75,4 +76,24 @@ ol {
   width: 16em;
   padding-top: 3em;
   padding-bottom: 1em;
+}
+
+#messages {
+  float: right;
+  width: 30%;
+
+  .message {
+    margin: 2.2em;
+    padding: 2em;
+  }
+
+  .info {
+    background-color: #EEFFDD;
+    border: 1px solid #009900;
+  }
+
+  .warn {
+    background-color: #FFEECC;
+    border: 1px solid #FF9900;
+  }
 }

@@ -78,7 +78,10 @@ function ManualMapping(buffer, maintain_buffer_size) {
       if(waiting_for_buffer) return
 
       if(typeof keycode_map[event.which] != 'undefined') {
-        if(current.best_candidates.length < keycode_map[event.which]) return
+        if(current.best_candidates.length < keycode_map[event.which]) {
+          add_message('Firma s číslom ' + keycode_map[event.which] + ' neexistuje.', 'warn', 2000)
+          return
+        }
 
         $("#candidate" + (keycode_map[event.which] - 1)).css('background-color', '#ffffcc')
 
@@ -125,7 +128,7 @@ function ManualMapping(buffer, maintain_buffer_size) {
       if(data.length > 0) {
         next_candidate()
       } else {
-        alert('Hotovo')
+        add_message('Všetky firmy sú už priradené.', 'info', 10000)
       }
     }
   }
@@ -133,6 +136,16 @@ function ManualMapping(buffer, maintain_buffer_size) {
   load_buffer_if_neccessary = function() {
     if(buffer.length < maintain_buffer_size) {
       load_buffer()
+    }
+  }
+
+  add_message = function(message, type, timeout) {
+    id = Math.floor(Math.random()*1000+1)
+    html = '<div id="' + id + '" class="message ' + type + '">' + message + '</div>'
+    $('#messages').append(html);
+
+    if(timeout != null) {
+      setTimeout('$("#' + id + '").fadeOut()', 3000)
     }
   }
 }
