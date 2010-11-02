@@ -27,7 +27,7 @@ class Datanest::PartySponsor < ActiveRecord::Base
       end
     end
 
-    unlocked
+    unlocked.reject { |ps| ps.best_candidates.first.nil? }
   end
 
 end
