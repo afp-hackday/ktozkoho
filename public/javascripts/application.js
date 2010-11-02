@@ -29,6 +29,7 @@ function ManualMapping(buffer, maintain_buffer_size) {
   }
 
   next_candidate = function() {
+    load_buffer_if_neccessary()
     current = buffer.pop()
 
     $("#company").text(current["company"] || '')
@@ -47,8 +48,6 @@ function ManualMapping(buffer, maintain_buffer_size) {
 
       $("#candidate" + i).empty().append(name_address).append(historical_addresses).css("visibility", visibility).css('background-color', '')
     }
-
-    load_buffer_if_neccessary()
   }
   this.next_candidate = next_candidate
 
