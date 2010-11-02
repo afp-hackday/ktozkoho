@@ -1,6 +1,6 @@
 class MappingController < ApplicationController
   def index
-    @party_sponsors = Datanest::PartySponsor.find_and_lock_unmapped(1)
+    @party_sponsors = Datanest::PartySponsor.find_and_lock_unmapped(5)
   end
 
   def load_entities
