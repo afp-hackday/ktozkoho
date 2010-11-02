@@ -1,5 +1,7 @@
 body {
-  font-family: Georgia, sans
+  font-family: Georgia, sans;
+  margin: 2em;
+  line-height: 1.3em;
 }
 
 strong {
@@ -95,5 +97,17 @@ ol {
   .warn {
     background-color: #FFEECC;
     border: 1px solid #FF9900;
+  }
+}
+
+.mapping_crossroad {
+  font-size: 19px;
+
+  thead {
+    border-bottom: 1px solid black;
+  }
+
+  td {
+    padding: 0.5em;
   }
 }

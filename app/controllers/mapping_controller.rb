@@ -1,10 +1,27 @@
 class MappingController < ApplicationController
   def index
-    @party_sponsors = Datanest::PartySponsor.find_and_lock_unmapped(5)
+    @datanest_models = [Datanest::PartySponsor,
+                        Datanest::PartyLoan,
+                        Datanest::AgroDotation,
+                        Datanest::BuildingDotation,
+                        Datanest::Consolidation,
+                        Datanest::CultureDotation,
+                        Datanest::Eurofond,
+                        Datanest::ForgivenToll,
+                        Datanest::OtherDotation,
+                        Datanest::Privatization,
+                        Datanest::Procurement]
   end
 
-  def load_entities
-    @party_sponsors = Datanest::PartySponsor.find_and_lock_unmapped(params[:limit])
+  def entities
+    entity = "Datanest::#{params[:type].classify}".constantize
+    @entity_type = params[:type]
+    @party_sponsors = []
+  end
+
+  def load
+    entity = "Datanest::#{params[:type].classify}".constantize
+    @party_sponsors = entity.find_and_lock_unmapped(params[:limit])
     render :layout => false
   end
 end

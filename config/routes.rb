@@ -1,6 +1,7 @@
 Investitions::Application.routes.draw do
   match 'mapping/index' => 'mapping#index'
-  match 'mapping/load_entities' => 'mapping#load_entities'
+  match 'mapping/entities' => 'mapping#entities'
+  match 'mapping/load' => 'mapping#load'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

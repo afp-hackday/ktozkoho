@@ -1,13 +1,10 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
-$(document).ready(function() {
-  mapping = new ManualMapping(unmapped_entities_buffer, 9)
-  mapping.start()
-});
 
-function ManualMapping(buffer, maintain_buffer_size) {
+function ManualMapping(buffer, maintain_buffer_size, entity_type) {
   var buffer = buffer
   var maintain_buffer_size = maintain_buffer_size
+  var entity_type = entity_type
   var current
 
   this.buffer = buffer
@@ -109,7 +106,7 @@ function ManualMapping(buffer, maintain_buffer_size) {
     if(loading) return
 
     loading = true
-    $.getJSON('load_entities', {}, new_data_received_callback)
+    $.getJSON('load', {'type': entity_type}, new_data_received_callback)
   }
 
   new_data_received_callback = function(data, textStatus) {
