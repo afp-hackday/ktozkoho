@@ -8,6 +8,8 @@ $(document).ready(function() {
 function ManualMapping(buffer, maintain_buffer_size) {
   var buffer = buffer
   var maintain_buffer_size = maintain_buffer_size
+  var current
+
   this.buffer = buffer
 
   var loading = false
@@ -76,6 +78,8 @@ function ManualMapping(buffer, maintain_buffer_size) {
       if(waiting_for_buffer) return
 
       if(typeof keycode_map[event.which] != 'undefined') {
+        if(current.best_candidates.length < keycode_map[event.which]) return
+
         if(buffer.length > 0) {
           $("#candidate" + (keycode_map[event.which] - 1)).css('background-color', '#ffffcc')
           setTimeout('next_candidate()', 200)
