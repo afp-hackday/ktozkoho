@@ -1,3 +1,4 @@
+#coding: utf-8
 module Datanest
   module ManuallyMappable
 
@@ -8,11 +9,13 @@ module Datanest
 
         has_many :best_candidates, :class_name => 'Datanest::Organisation', :finder_sql =>
                 'SELECT *
-                    FROM datanest_organisations
-                  WHERE name % \'#{company}\'
-                    AND address % \'#{address}\'
-                  ORDER BY similarity(name, \'#{company}\') DESC
-                  LIMIT 5'
+                    FROM datanest_organisations o
+                    JOIN datanest_organisation_addresses a ON a.organisation_id = o.id
+                   WHERE o.name % \'#{company}\'
+                     AND o.legal_form != \'Podnikateľ-fyzická osoba-nezapísaný v obchodnom registri\'
+                     AND a.address % \'#{address}\'
+                   ORDER BY similarity(o.name, \'#{company}\') DESC
+                   LIMIT 5'
       end
     end
 
