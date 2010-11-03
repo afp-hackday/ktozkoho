@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101102202848) do
+ActiveRecord::Schema.define(:version => 20101103223154) do
 
   create_table "datanest_agro_dotations", :force => true do |t|
     t.string   "title",               :limit => 20
@@ -175,7 +175,7 @@ ActiveRecord::Schema.define(:version => 20101102202848) do
     t.datetime "updated_at"
   end
 
-  add_index "datanest_organisation_addresses", ["address"], :name => "index_datanest_organisation_addresses_on_addresses_trgm"
+  add_index "datanest_organisation_addresses", ["address"], :name => "index_datanest_organisation_addresses_on_address_gist_trgm"
   add_index "datanest_organisation_addresses", ["organisation_id"], :name => "index_datanest_organisation_addresses_on_organisation_id"
 
   create_table "datanest_organisation_name_histories", :force => true do |t|
@@ -201,7 +201,41 @@ ActiveRecord::Schema.define(:version => 20101102202848) do
     t.string "source_url",     :limit => 4000
   end
 
-  add_index "datanest_organisations", ["name"], :name => "index_datanest_organisations_on_name_trgm"
+  create_table "datanest_organisations_in_orsr", :id => false, :force => true do |t|
+    t.integer "id",                             :null => false
+    t.string  "name",           :limit => 1000
+    t.string  "ico",            :limit => 20
+    t.string  "address",        :limit => 200
+    t.string  "legal_form",     :limit => 200
+    t.string  "region",         :limit => 100
+    t.date    "started_at"
+    t.date    "ended_at"
+    t.text    "activity1"
+    t.text    "activity2"
+    t.string  "account_sector", :limit => 200
+    t.string  "ownership",      :limit => 100
+    t.string  "size",           :limit => 100
+    t.string  "source_url",     :limit => 4000
+  end
+
+  add_index "datanest_organisations_in_orsr", ["name"], :name => "index_datanest_organisations_in_orsr_on_name_gist_trgm"
+
+  create_table "datanest_organisations_not_in_orsr", :id => false, :force => true do |t|
+    t.integer "id",                             :null => false
+    t.string  "name",           :limit => 1000
+    t.string  "ico",            :limit => 20
+    t.string  "address",        :limit => 200
+    t.string  "legal_form",     :limit => 200
+    t.string  "region",         :limit => 100
+    t.date    "started_at"
+    t.date    "ended_at"
+    t.text    "activity1"
+    t.text    "activity2"
+    t.string  "account_sector", :limit => 200
+    t.string  "ownership",      :limit => 100
+    t.string  "size",           :limit => 100
+    t.string  "source_url",     :limit => 4000
+  end
 
   create_table "datanest_other_dotations", :force => true do |t|
     t.string   "title",            :limit => 20
