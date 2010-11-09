@@ -1,6 +1,6 @@
 #coding: utf-8
 class Datanest::Organisation < ActiveRecord::Base
-  extend Datanest::FastCSVImport
+  extend Datanest::Support::FastCSVImport
 
   LEGAL_FORM_NOT_IN_ORSR = 'Podnikateľ-fyzická osoba-nezapísaný v obchodnom registri'
 

@@ -1,7 +1,7 @@
 #coding: utf-8
 class Datanest::BuildingDotation < ActiveRecord::Base
-  extend Datanest::Import
-  extend Datanest::ManuallyMappable
+  extend Datanest::Support::Import
+  extend Datanest::Support::ManuallyMappable
 
   csv                         'dotacie_vystavba-dump.csv'
   additional_currency_columns :project_value

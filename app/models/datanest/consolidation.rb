@@ -1,7 +1,7 @@
 #coding: utf-8
 class Datanest::Consolidation < ActiveRecord::Base
-  extend Datanest::Import
-  extend Datanest::ManuallyMappable
+  extend Datanest::Support::Import
+  extend Datanest::Support::ManuallyMappable
 
   csv           'konsolidacna-dump.csv'
   before_create :convert_financial_attributes, :empty_attributes_to_null,

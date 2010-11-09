@@ -1,7 +1,7 @@
 #coding: utf-8
 class Datanest::CultureDotation < ActiveRecord::Base
-  extend Datanest::Import
-  extend Datanest::ManuallyMappable
+  extend Datanest::Support::Import
+  extend Datanest::Support::ManuallyMappable
 
   csv                         'dotacie_kultura-dump.csv'
   additional_currency_columns :budget, :dissaving

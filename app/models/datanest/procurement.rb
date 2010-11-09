@@ -1,7 +1,7 @@
 #coding: utf-8
 class Datanest::Procurement < ActiveRecord::Base
-  extend Datanest::Import
-  extend Datanest::ManuallyMappable
+  extend Datanest::Support::Import
+  extend Datanest::Support::ManuallyMappable
 
   csv 'procurements_2-dump.csv'
   csv 'procurements-dump.csv',
