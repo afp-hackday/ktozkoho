@@ -40,10 +40,11 @@ module Datanest
       end
 
       def find_or_create_subject organisation
-        Subject.find_or_create_by_datanest_organisation_id(:datanest_organisation_id => organisation.id,
-                                                           :company => organisation.name,
-                                                           :address => organisation.address,
-                                                           :type => 'Company')
+        Subject.find_or_create_by_datanest_organisation_id(
+             :datanest_organisation_id => organisation.id,
+             :company => organisation.name,
+             :address => organisation.address,
+             :type => 'Company')
       end
     end
   end
