@@ -1,7 +1,7 @@
 #coding: utf-8
 class Datanest::AgroDotation < ActiveRecord::Base
-  extend Datanest::Support::Import
-  extend Datanest::Support::ManuallyMappable
+  include Datanest::Support::Import
+  include Datanest::Support::ManuallyMappable
 
   csv           'polnodotacie-dump.csv'
   before_create :convert_financial_attributes, :empty_attributes_to_null,

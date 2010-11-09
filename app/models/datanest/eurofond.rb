@@ -1,7 +1,7 @@
 #coding: utf-8
 class Datanest::Eurofond < ActiveRecord::Base
-  extend Datanest::Support::Import
-  extend Datanest::Support::ManuallyMappable
+  include Datanest::Support::Import
+  include Datanest::Support::ManuallyMappable
 
   csv                         'eurofondy-dump.csv'
   additional_currency_columns :budget
