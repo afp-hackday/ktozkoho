@@ -5,6 +5,9 @@ class Datanest::Eurofond < ActiveRecord::Base
 
   csv                         'eurofondy-dump.csv'
   additional_currency_columns :budget
-  before_create               :convert_financial_attributes, :empty_attributes_to_null
+  before_create               :convert_financial_attributes, :empty_attributes_to_null,
+                              :link_subject
   display_name                'Eurofondy'
+
+  belongs_to :subject
 end

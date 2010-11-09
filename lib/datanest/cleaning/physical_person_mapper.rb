@@ -36,7 +36,6 @@ module Datanest
           .where("strip_address(address) % strip_address(?)", address)
           .order(order_expression).limit(1).first
       end
-
     end
   end
 end

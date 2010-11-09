@@ -5,7 +5,7 @@ class Datanest::AgroDotation < ActiveRecord::Base
 
   csv           'polnodotacie-dump.csv'
   before_create :convert_financial_attributes, :empty_attributes_to_null,
-                :link_organisation, :link_physical_person
+                :link_subject
   display_name  'Agro dotácie'
 
   belongs_to :subject
