@@ -390,7 +390,7 @@ ActiveRecord::Schema.define(:version => 20101109162043) do
     t.datetime "updated_at"
   end
 
-  add_index "subjects", ["datanest_organisation_id"], :name => "index_subjects_on_datanest_organisation_id"
+  add_index "subjects", ["datanest_organisation_id"], :name => "index_subjects_on_datanest_organisation_id", :unique => true
   add_index "subjects", ["name", "surname"], :name => "index_subjects_on_name_surname_address_gist_trgm"
 
 end

@@ -46,42 +46,40 @@ module Datanest
       end
 
       def find_or_create_subject organisation
-        Subject.find_or_create_by_datanest_organisation_id(
+        Company.find_or_create_by_datanest_organisation_id(
               :datanest_organisation_id => organisation.id,
               :company => organisation.name,
-              :address => organisation.address,
-              :type => 'Company')
+              :address => organisation.address)
       end
 
       def link_physical_person
         if name and surname and address
-          subject = try_subject_fuzzy_match
+          person = try_person_fuzzy_match
 
-          if subject
+          if person
             self.mapping_strategy = 'fuzzy'
-            puts "#{title} #{name} #{surname}, #{address} --> #{subject.title} #{subject.name} #{subject.surname}, #{subject.address} [by fuzzy]"
+            puts "#{title} #{name} #{surname}, #{address} --> #{person.title} #{person.name} #{person.surname}, #{person.address} [by fuzzy]"
           else
             self.mapping_strategy = 'create_new'
             puts "#{title} #{name} #{surname}, #{address} --> No match"
 
-            subject = Subject.new(:name => name, :surname => surname,
-                                  :title => title, :address => address,
-                                  :type => 'PhysicalPerson')
-            subject.save
+            person = Person.new(:name => name, :surname => surname,
+                                 :title => title, :address => address)
+            person.save
           end
 
-          self.subject = subject
+          self.subject = person
         end
       end
 
-      def try_subject_fuzzy_match
+      def try_person_fuzzy_match
         order_expression = "  similarity('#{name}', name)
                             + similarity('#{surname}', surname)
                             + similarity('#{address}', address) DESC"
 
         connection.execute "SELECT set_limit(0.8)"
 
-        Subject
+        Person
           .where('name % ?', name)
           .where('surname % ?', surname)
           .where("strip_address(address) % strip_address(?)", address)

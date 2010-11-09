@@ -2,11 +2,11 @@ class IndexSubjectTrgm < ActiveRecord::Migration
   def self.up
     sql =<<-SQL
       CREATE INDEX index_subjects_on_name_surname_address_gist_trgm
-        ON subjects USING GIST(name gist_trgm_ops, surname gist_trgm_ops, strip_address(address) gist_trgm_ops)
+        ON subjects USING GIST(name gist_trgm_ops, surname gist_trgm_ops, strip_address(address) gist_trgm_ops) WHERE type = 'Person'
     SQL
     execute sql
 
-    add_index :subjects, :datanest_organisation_id
+    add_index :subjects, :datanest_organisation_id, :unique => true
   end
 
   def self.down
