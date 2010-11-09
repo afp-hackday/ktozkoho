@@ -19,39 +19,19 @@ module Datanest
       private
 
       def try_exact_match
-        Datanest::Organisation
-          .where('legal_form != ?', Datanest::Organisation::LEGAL_FORM_NOT_IN_ORSR)
-          .where('lower(name) = ?', self[:company].downcase).first
+        Datanest::Organisation.in_orsr.where('lower(name) = ?', company.downcase).first
       end
 
       def try_fuzzy_historical_match
-        order_expression = "similarity('#{self[:company]}', name)"
-
+        order_expression = "similarity('#{company}', name) DESC"
         connection.execute "SELECT set_limit(0.5)"
-
-        Datanest::Organisation.joins(:addresses)
-          .where('legal_form != ?', Datanest::Organisation::LEGAL_FORM_NOT_IN_ORSR)
-          .where('name % ?', self[:company])
-          .where("#{pg_strip_address('datanest_organisation_addresses.address')} % #{pg_strip_address("?")}", self[:address])
-          .where("similarity(#{pg_strip_address('datanest_organisation_addresses.address')}, #{pg_strip_address("?")}) > 0.9", self[:address])
-          .order("#{order_expression} DESC").limit(1).first
+        Datanest::Organisation.in_orsr.name_similar_to(company).historical_address_similar_to(address).order(order_expression).limit(1).first
       end
 
       def try_fuzzy_match
-        order_expression = "similarity('#{self[:company]}', name)"
-
+        order_expression = "similarity('#{company}', name) DESC"
         connection.execute "SELECT set_limit(0.5)"
-
-        Datanest::Organisation
-          .where('legal_form != ?', Datanest::Organisation::LEGAL_FORM_NOT_IN_ORSR)
-          .where('name % ?', self[:company])
-          .where("#{pg_strip_address('address')} % #{pg_strip_address("?")}", self[:address])
-          .where("similarity(#{pg_strip_address('address')}, #{pg_strip_address("?")}) > 0.9", self[:address])
-          .order("#{order_expression} DESC").limit(1).first
-      end
-
-      def pg_strip_address address
-        "regexp_replace(#{address}, E'[0-9, \\u00A0]', '', 'g')"
+        Datanest::Organisation.in_orsr.name_similar_to(company).current_address_similar_to(address).order(order_expression).limit(1).first
       end
 
       def link_best_match organisation, strategy

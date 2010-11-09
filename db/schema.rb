@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101104002042) do
+ActiveRecord::Schema.define(:version => 20101109150410) do
 
   create_table "datanest_agro_dotations", :force => true do |t|
     t.string   "title",               :limit => 20
@@ -187,7 +187,6 @@ ActiveRecord::Schema.define(:version => 20101104002042) do
     t.datetime "updated_at"
   end
 
-  add_index "datanest_organisation_addresses", ["address"], :name => "index_datanest_organisation_addresses_on_address_gist_trgm"
   add_index "datanest_organisation_addresses", ["organisation_id"], :name => "index_datanest_organisation_addresses_on_organisation_id"
 
   create_table "datanest_organisation_name_histories", :force => true do |t|

@@ -7,38 +7,36 @@ module Datanest
           subject = try_fuzzy_match
 
           if subject
-            puts "#{self[:title]} #{self[:name]} #{self[:surname]}, #{self[:address]} --> #{subject.title} #{subject.name} #{subject.surname}, #{subject.address} [by fuzzy]"
+            self.mapping_strategy = 'fuzzy'
+            puts "#{title} #{name} #{surname}, #{address} --> #{subject.title} #{subject.name} #{subject.surname}, #{subject.address} [by fuzzy]"
           else
-            puts "#{self[:title]} #{self[:name]} #{self[:surname]}, #{self[:address]} --> No match"
+            self.mapping_strategy = 'create_new'
+            puts "#{title} #{name} #{surname}, #{address} --> No match"
 
-            subject = Subject.new(:name => self[:name], :surname => self[:surname],
-                                  :title => self[:title], :address => self[:address],
+            subject = Subject.new(:name => name, :surname => surname,
+                                  :title => title, :address => address,
                                   :type => 'PhysicalPerson')
             subject.save
           end
 
           self.subject = subject
-          self.mapping_strategy = 'fuzzy'
         end
       end
 
       def try_fuzzy_match
-        order_expression = "  similarity('#{self[:name]}', name)
-                            + similarity('#{self[:surname]}', surname)
-                            + similarity('#{self[:address]}', address)"
+        order_expression = "  similarity('#{name}', name)
+                            + similarity('#{surname}', surname)
+                            + similarity('#{address}', address) DESC"
 
         connection.execute "SELECT set_limit(0.8)"
 
         Subject
-          .where('name % ?', self[:name])
-          .where('surname % ?', self[:surname])
-          .where("#{pg_strip_address('address')} % #{pg_strip_address("?")}", self[:address])
-          .order("#{order_expression} DESC").limit(1).first
+          .where('name % ?', name)
+          .where('surname % ?', surname)
+          .where("strip_address(address) % strip_address(?)", address)
+          .order(order_expression).limit(1).first
       end
 
-      def pg_strip_address address
-        "regexp_replace(#{address}, E'[0-9, \\u00A0]', '', 'g')"
-      end
     end
   end
 end
