@@ -2,6 +2,8 @@ namespace :datanest do
 
   desc "Load datanest CSV files into tables"
   task :cash_flow => :environment do
+    puts "Deleting subjects"
+    Subject.delete_all
     puts "Loading AgroDotations.."
     Datanest::AgroDotation.load_csv_data
     puts "Loading BuildingDotations.."

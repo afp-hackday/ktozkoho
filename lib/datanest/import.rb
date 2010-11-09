@@ -13,16 +13,17 @@ module Datanest
       base.send :include, Datanest::Cleaning::FinancialAttributes::InstanceMethods
       base.send :include, Datanest::Cleaning::PartyNames
       base.send :include, Datanest::Cleaning::OrganisationMapper
+      base.send :include, Datanest::Cleaning::PhysicalPersonMapper
       base.send :include, Datanest::Cleaning::EmptyAttributesToNull
     end
 
     @csvs = []
-    AdditionalCSV = Struct.new(:path, :mapping)
+    CSV = Struct.new(:path, :mapping)
 
     def csv path, column_mapping = nil
       @csvs ||= []
       column_mapping = default_mapping if column_mapping.nil?
-      @csvs << AdditionalCSV.new(path, column_mapping)
+      @csvs << CSV.new(path, column_mapping)
     end
 
     def default_mapping
@@ -34,11 +35,9 @@ module Datanest
     private
 
     def load_csvs
-      puts @csvs
-
       @csvs.each do |csv|
         attributes_update = {}
-        CSV.foreach("#{Rails.root}/tmp/csv/#{csv.path}", :headers => true, :encoding => 'utf-8') do |row|
+        ::CSV.foreach("#{Rails.root}/tmp/csv/#{csv.path}", :headers => true, :encoding => 'utf-8') do |row|
           csv.mapping.each { |column, index| attributes_update[column] = row[index] }
 
           self.new(attributes_update).save

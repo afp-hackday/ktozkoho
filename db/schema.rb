@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101103223154) do
+ActiveRecord::Schema.define(:version => 20101104002042) do
 
   create_table "datanest_agro_dotations", :force => true do |t|
     t.string   "title",               :limit => 20
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(:version => 20101103223154) do
     t.date     "request_received_at"
     t.string   "document",            :limit => 500
     t.datetime "locked_at"
+    t.string   "mapping_strategy",    :limit => 20
+    t.integer  "subject_id"
   end
 
   create_table "datanest_building_dotations", :force => true do |t|
@@ -61,27 +63,31 @@ ActiveRecord::Schema.define(:version => 20101103223154) do
     t.float    "road_dotation_amount"
     t.float    "gas_pipeline_dotation_amount"
     t.datetime "locked_at"
+    t.string   "mapping_strategy",             :limit => 20
+    t.integer  "subject_id"
   end
 
   create_table "datanest_consolidations", :force => true do |t|
-    t.string   "company",      :limit => 200
-    t.string   "ico",          :limit => 20
-    t.string   "title",        :limit => 20
-    t.string   "name",         :limit => 100
-    t.string   "surname",      :limit => 100
-    t.string   "city",         :limit => 50
-    t.string   "name2",        :limit => 100
+    t.string   "company",          :limit => 200
+    t.string   "ico",              :limit => 20
+    t.string   "title",            :limit => 20
+    t.string   "name",             :limit => 100
+    t.string   "surname",          :limit => 100
+    t.string   "city",             :limit => 50
+    t.string   "name2",            :limit => 100
     t.float    "amount"
-    t.string   "currency",     :limit => 5
-    t.string   "note",         :limit => 500
+    t.string   "currency",         :limit => 5
+    t.string   "note",             :limit => 500
     t.date     "updated_at"
-    t.string   "legal_form",   :limit => 50
+    t.string   "legal_form",       :limit => 50
     t.string   "asset_number"
-    t.string   "psc",          :limit => 10
-    t.string   "surname2",     :limit => 100
-    t.string   "name3",        :limit => 100
-    t.string   "surname3",     :limit => 100
+    t.string   "psc",              :limit => 10
+    t.string   "surname2",         :limit => 100
+    t.string   "name3",            :limit => 100
+    t.string   "surname3",         :limit => 100
     t.datetime "locked_at"
+    t.string   "mapping_strategy", :limit => 20
+    t.integer  "subject_id"
   end
 
   create_table "datanest_culture_dotations", :force => true do |t|
@@ -105,6 +111,8 @@ ActiveRecord::Schema.define(:version => 20101103223154) do
     t.string   "additional_note",    :limit => 500
     t.date     "contract_signed_at"
     t.datetime "locked_at"
+    t.string   "mapping_strategy",   :limit => 20
+    t.integer  "subject_id"
   end
 
   create_table "datanest_eurofonds", :force => true do |t|
@@ -147,25 +155,29 @@ ActiveRecord::Schema.define(:version => 20101103223154) do
     t.date     "project_start_at"
     t.date     "project_finish_at"
     t.datetime "locked_at"
+    t.string   "mapping_strategy",       :limit => 20
+    t.integer  "subject_id"
   end
 
   create_table "datanest_forgiven_tolls", :force => true do |t|
-    t.string   "company",         :limit => 200
-    t.string   "title",           :limit => 20
-    t.string   "name",            :limit => 100
-    t.string   "surname",         :limit => 100
-    t.string   "ico",             :limit => 20
-    t.string   "address",         :limit => 200
-    t.string   "zip",             :limit => 10
-    t.string   "city",            :limit => 100
-    t.string   "paragraph",       :limit => 100
+    t.string   "company",          :limit => 200
+    t.string   "title",            :limit => 20
+    t.string   "name",             :limit => 100
+    t.string   "surname",          :limit => 100
+    t.string   "ico",              :limit => 20
+    t.string   "address",          :limit => 200
+    t.string   "zip",              :limit => 10
+    t.string   "city",             :limit => 100
+    t.string   "paragraph",        :limit => 100
     t.float    "amount"
-    t.string   "currency",        :limit => 5
+    t.string   "currency",         :limit => 5
     t.integer  "year"
-    t.string   "toll_office",     :limit => 100
-    t.string   "note",            :limit => 500
-    t.string   "additional_note", :limit => 500
+    t.string   "toll_office",      :limit => 100
+    t.string   "note",             :limit => 500
+    t.string   "additional_note",  :limit => 500
     t.datetime "locked_at"
+    t.string   "mapping_strategy", :limit => 20
+    t.integer  "subject_id"
   end
 
   create_table "datanest_organisation_addresses", :force => true do |t|
@@ -259,43 +271,49 @@ ActiveRecord::Schema.define(:version => 20101103223154) do
     t.date     "accepted_at"
     t.date     "requested_at"
     t.datetime "locked_at"
+    t.string   "mapping_strategy", :limit => 20
+    t.integer  "subject_id"
   end
 
   create_table "datanest_party_loans", :force => true do |t|
-    t.string   "title",       :limit => 20
-    t.string   "name",        :limit => 100
-    t.string   "surname",     :limit => 100
-    t.string   "company",     :limit => 200
-    t.string   "ico",         :limit => 20
-    t.string   "zip",         :limit => 10
-    t.string   "city",        :limit => 100
+    t.string   "title",            :limit => 20
+    t.string   "name",             :limit => 100
+    t.string   "surname",          :limit => 100
+    t.string   "company",          :limit => 200
+    t.string   "ico",              :limit => 20
+    t.string   "zip",              :limit => 10
+    t.string   "city",             :limit => 100
     t.float    "amount"
-    t.string   "currency",    :limit => 5
-    t.string   "party",       :limit => 100
+    t.string   "currency",         :limit => 5
+    t.string   "party",            :limit => 100
     t.integer  "year"
     t.date     "received_at"
     t.date     "paid_at"
     t.date     "mature_at"
-    t.string   "note",        :limit => 500
+    t.string   "note",             :limit => 500
     t.datetime "locked_at"
+    t.string   "mapping_strategy", :limit => 20
+    t.integer  "subject_id"
   end
 
   create_table "datanest_party_sponsors", :force => true do |t|
-    t.string   "name",        :limit => 100
-    t.string   "surname",     :limit => 100
-    t.string   "title",       :limit => 20
-    t.string   "company",     :limit => 100
-    t.string   "ico",         :limit => 20
+    t.string   "name",             :limit => 100
+    t.string   "surname",          :limit => 100
+    t.string   "title",            :limit => 20
+    t.string   "company",          :limit => 100
+    t.string   "ico",              :limit => 20
     t.float    "amount"
-    t.string   "currency",    :limit => 3
-    t.string   "address",     :limit => 500
-    t.string   "zip",         :limit => 10
-    t.string   "city",        :limit => 100
-    t.string   "party",       :limit => 20
+    t.string   "currency",         :limit => 3
+    t.string   "address",          :limit => 500
+    t.string   "zip",              :limit => 10
+    t.string   "city",             :limit => 100
+    t.string   "party",            :limit => 20
     t.integer  "year"
     t.date     "received_at"
-    t.string   "note",        :limit => 500
+    t.string   "note",             :limit => 500
     t.datetime "locked_at"
+    t.string   "mapping_strategy", :limit => 20
+    t.integer  "subject_id"
   end
 
   create_table "datanest_privatizations", :force => true do |t|
@@ -315,6 +333,8 @@ ActiveRecord::Schema.define(:version => 20101103223154) do
     t.string   "seller",                     :limit => 100
     t.string   "note",                       :limit => 500
     t.datetime "locked_at"
+    t.string   "mapping_strategy",           :limit => 20
+    t.integer  "subject_id"
   end
 
   create_table "datanest_procurements", :force => true do |t|
@@ -340,6 +360,8 @@ ActiveRecord::Schema.define(:version => 20101103223154) do
     t.string   "source_url",            :limit => 1000
     t.string   "batch_record_code",     :limit => 200
     t.datetime "locked_at"
+    t.string   "mapping_strategy",      :limit => 20
+    t.integer  "subject_id"
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -356,5 +378,17 @@ ActiveRecord::Schema.define(:version => 20101103223154) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "subjects", :force => true do |t|
+    t.string   "company",                  :limit => 500
+    t.string   "title",                    :limit => 50
+    t.string   "name",                     :limit => 100
+    t.string   "surname",                  :limit => 100
+    t.string   "address",                  :limit => 200
+    t.string   "type",                     :limit => 30
+    t.integer  "datanest_organisation_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
