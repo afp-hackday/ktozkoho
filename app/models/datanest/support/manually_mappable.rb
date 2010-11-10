@@ -5,8 +5,9 @@ module Datanest
       extend ActiveSupport::Concern
 
       included do
-        scope :companies, where('company IS NOT NULL')
         scope :not_locked, where('locked_at IS NULL OR locked_at < ?', Time.now - 20.minutes)
+        scope :manual_mapping_not_tried, where('mapping_strategy IS NULL OR mapping_strategy != ?', 'impossible')
+        scope :mappable, manual_mapping_not_tried.not_locked.where('company IS NOT NULL AND subject_id IS NULL', 'impossible')
 
         has_many :best_candidates, :class_name => 'Datanest::Organisation', :finder_sql =>
                 'SELECT *
@@ -31,7 +32,7 @@ module Datanest
           unlocked = []
 
           transaction do
-            unlocked = companies.not_locked.limit(limit)
+            unlocked = mappable.limit(limit)
             unlocked.each do |r|
               r.locked_at = Time.now
               r.save
@@ -39,6 +40,10 @@ module Datanest
           end
 
           unlocked.reject { |ps| ps.best_candidates.first.nil? }
+        end
+
+        def percent_of_mapped
+          1 - mappable.count.to_f / count.to_f
         end
       end
     end

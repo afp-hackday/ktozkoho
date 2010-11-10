@@ -3,13 +3,17 @@
     <tr>
       <th>Typ</th>
       <th>Počet nepriradených</th>
+      <th>Celkový počet záznamov</th>
+      <th>Podiel priradených</th>
     </tr>
   </thead>
   <tbody>
     <% @datanest_models.each do |model_class| %>
-      <tr>
+      <tr class='<%= manual_mapping_category(model_class) %>'>
         <td><%= link_to model_class.dname, mapping_entities_url(:type => model_class.name.demodulize.tableize) %></td>
+        <td><%= model_class.mappable.count %></td>
         <td><%= model_class.count %></td>
+        <td><%= model_class.percent_of_mapped %></td>
       </tr>
     <% end %>
   </tbody>

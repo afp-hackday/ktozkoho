@@ -107,7 +107,28 @@ ol {
     border-bottom: 1px solid black;
   }
 
-  td {
+  th, td {
     padding: 0.5em;
   }
+
+  .nearly_unmapped {
+    background-color: red;
+  }
+
+  .badly_mapped {
+    background-color: purple;
+  }
+
+  .well_mapped {
+    background-color: yellow;
+  }
+
+  .excellently_mapped {
+    background-color: gray;
+  }
+
+  .all_mapped {
+    background-color: green;
+  }
+
 }
