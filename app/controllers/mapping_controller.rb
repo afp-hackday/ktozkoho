@@ -14,14 +14,13 @@ class MappingController < ApplicationController
   end
 
   def entities
-    entity = "Datanest::#{params[:type].classify}".constantize
     @entity_type = params[:type]
-    @party_sponsors = []
+    @entities = []
   end
 
   def load
     entity = "Datanest::#{params[:type].classify}".constantize
-    @party_sponsors = entity.find_and_lock_unmapped(params[:limit])
+    @entities = entity.find_and_lock_unmapped(params[:limit])
     render :layout => false
   end
 end
