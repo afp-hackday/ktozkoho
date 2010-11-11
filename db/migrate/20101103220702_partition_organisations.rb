@@ -16,6 +16,8 @@ class PartitionOrganisations < ActiveRecord::Migration
       ) INHERITS(datanest_organisations)
     SQL
 
+    execute "CREATE LANGUAGE plpgsql"
+
     execute <<-SQL
       CREATE OR REPLACE FUNCTION organisations_insert_trigger()
       RETURNS TRIGGER AS $$
