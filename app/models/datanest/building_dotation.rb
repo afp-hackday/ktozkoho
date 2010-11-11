@@ -13,4 +13,7 @@ class Datanest::BuildingDotation < ActiveRecord::Base
   def address
     city || ''
   end
+
+  def title
+  end
 end
