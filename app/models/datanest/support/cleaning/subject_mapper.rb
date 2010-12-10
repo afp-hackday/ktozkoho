@@ -30,7 +30,6 @@ module Datanest
         end
 
         def try_fuzzy_historical_match
-          puts "Esceped: #{ActiveRecord::Base.quote_value(company)}"
           order_expression = "similarity(#{ActiveRecord::Base.quote_value(company)}, name) DESC"
           connection.execute "SELECT set_limit(0.5)"
           Datanest::Organisation.in_orsr.name_similar_to(company).historical_address_similar_to(address).order(order_expression).limit(1).first
