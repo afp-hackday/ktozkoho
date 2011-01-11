@@ -10,13 +10,11 @@ module Datanest
         scope :mappable, manual_mapping_not_tried.not_locked.where('company IS NOT NULL AND subject_id IS NULL', 'impossible')
 
         has_many :best_candidates, :class_name => 'Datanest::Organisation', :finder_sql =>
-                'SELECT *
-                    FROM datanest_organisations o
-                    JOIN datanest_organisation_addresses a ON a.organisation_id = o.id
+                'SELECT o.*, similarity(o.name, \'#{Company.clean_name(company)}\')
+                   FROM datanest_organisations o
                   WHERE o.name % \'#{company}\'
-                    AND o.legal_form != \'Podnikateľ-fyzická osoba-nezapísaný v obchodnom registri\'
-                    AND a.address % \'#{address}\'
-                  ORDER BY similarity(o.name, \'#{company}\') DESC
+                    AND o.legal_form != \'' + Datanest::Organisation::LEGAL_FORM_NOT_IN_ORSR + '\'
+                  ORDER BY similarity DESC
                   LIMIT 5'
       end
 
@@ -39,7 +37,11 @@ module Datanest
             end
           end
 
+          #return [] if unlocked.size == 0
+
           unlocked.reject { |ps| ps.best_candidates.first.nil? }
+          #unlocked.reject! { |ps| ps.best_candidates.first.nil? }
+          #unlocked = unlocked + find_and_lock_unmapped(limit - unlocked.size) unless unlocked.size == limit
         end
 
         def percent_of_mapped
