@@ -15,12 +15,14 @@ class MappingController < ApplicationController
 
   def entities
     @entity_type = params[:type]
-    @entities = []
   end
 
   def load
     entity = "Datanest::#{params[:type].classify}".constantize
     @entities = entity.find_and_lock_unmapped(params[:limit])
-    render :layout => false
+
+    respond_to do |format|
+      format.json { render :json => @entities }
+    end
   end
 end

@@ -1,1 +1,1 @@
-<%= raw @entities.to_json(:only => [:company, :address, :name], :include => { :best_candidates => { :include => :addresses }}) %>
+<%= raw @entities.to_json(:only => [:id, :company, :address, :name], :include => { :best_candidates => { :include => :addresses }}) %>

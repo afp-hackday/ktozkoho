@@ -8,4 +8,11 @@ class Company < Subject
     name.gsub!('RD', 'Roľnícke družstvo')
     name
   end
+
+  def self.find_or_create_by_organization organization
+    find_or_create_by_datanest_organisation_id(
+      :datanest_organisation_id => organization.id,
+      :company => organization.name,
+      :address => organization.address)
+  end
 end

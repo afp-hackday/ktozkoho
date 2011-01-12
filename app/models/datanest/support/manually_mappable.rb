@@ -7,7 +7,8 @@ module Datanest
       included do
         scope :not_locked, where('locked_at IS NULL OR locked_at < ?', Time.now - 20.minutes)
         scope :manual_mapping_not_tried, where('mapping_strategy IS NULL OR mapping_strategy != ?', 'impossible')
-        scope :mappable, manual_mapping_not_tried.not_locked.where('company IS NOT NULL AND subject_id IS NULL', 'impossible')
+        scope :not_yet_mapped, where('subject_id IS NULL')
+        scope :mappable, not_yet_mapped.manual_mapping_not_tried.not_locked.where('company IS NOT NULL')
 
         has_many :best_candidates, :class_name => 'Datanest::Organisation', :finder_sql =>
                 'SELECT o.*, similarity(o.name, \'#{Company.clean_name(company)}\')
@@ -16,6 +17,10 @@ module Datanest
                     AND o.legal_form != \'' + Datanest::Organisation::LEGAL_FORM_NOT_IN_ORSR + '\'
                   ORDER BY similarity DESC
                   LIMIT 5'
+
+        def as_json(options={})
+          super(:only => [:id, :company, :address, :name], :include => { :best_candidates => { :include => :addresses  } } )
+        end
       end
 
       module ClassMethods
@@ -32,16 +37,14 @@ module Datanest
           transaction do
             unlocked = mappable.limit(limit)
             unlocked.each do |r|
-              r.locked_at = Time.now
-              r.save
+              find_all_by_company_and_address(r.company, r.address).each do |l|
+                l.locked_at = Time.now
+                l.save
+              end
             end
           end
 
-          #return [] if unlocked.size == 0
-
-          unlocked.reject { |ps| ps.best_candidates.first.nil? }
-          #unlocked.reject! { |ps| ps.best_candidates.first.nil? }
-          #unlocked = unlocked + find_and_lock_unmapped(limit - unlocked.size) unless unlocked.size == limit
+          unlocked.reject { |ps| ps.best_candidates.first.nil? }.uniq
         end
 
         def percent_of_mapped

@@ -1,5 +1,6 @@
 #coding: utf-8
 class Datanest::Procurement < ActiveRecord::Base
+  include Datanest::Base
   include Datanest::Support::Import
   include Datanest::Support::ManuallyMappable
 

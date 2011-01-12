@@ -80,6 +80,8 @@ function ManualMapping(buffer, maintain_buffer_size, entity_type) {
           return
         }
 
+        upload_mapping(keycode_map[event.which]);
+
         $("#candidate" + (keycode_map[event.which] - 1)).css('background-color', '#ffffcc')
 
         if(buffer.length > 0) {
@@ -89,6 +91,16 @@ function ManualMapping(buffer, maintain_buffer_size, entity_type) {
         }
       }
     })
+  }
+
+  upload_mapping = function(selected_candidate) {
+    if (selected_candidate == 0) {
+      var related = 'none';
+    } else {
+      var related = current.best_candidates[selected_candidate - 1].id;
+    }
+
+    $.post('/subjects/' + current.id, {'related_organisation_id': related,  'type': entity_type, '_method': 'put'})
   }
 
   waiting_for_buffer_start = function() {

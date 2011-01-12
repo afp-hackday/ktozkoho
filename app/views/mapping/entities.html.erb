@@ -1,9 +1,9 @@
 <script type="text/javascript">
-  unmapped_entities_buffer = <%= render "entities_json.json" %>
+  unmapped_entities_buffer = [];
 
   $(document).ready(function() {
-    mapping = new ManualMapping(unmapped_entities_buffer, 9, '<%= @entity_type %>')
-    mapping.start()
+    mapping = new ManualMapping(unmapped_entities_buffer, 9, '<%= @entity_type %>');
+    mapping.start();
   });
 </script>
 

@@ -10,21 +10,21 @@ module Datanest
           end
         end
 
+        private
+
         def link_organisation
           best_match, strategy = try_exact_match, 'exact'
-          best_match, strategy = try_like_match, 'like'
+          best_match, strategy = try_like_match(company), 'like'
           best_match, strategy = try_fuzzy_historical_match, 'fuzzy_historical' if best_match.nil?
           best_match, strategy = try_fuzzy_match, 'fuzzy' if best_match.nil?
 
           if best_match
-            link_subject(best_match, strategy)
+            link_matched_subject(best_match, strategy)
             puts "#{company}, #{address} --> #{best_match.name}, #{best_match.address} [by #{strategy}]"
           else
             puts "#{company}, #{address} --> No match.."
           end
         end
-
-        private
 
         def try_exact_match
           Datanest::Organisation.in_orsr.where('lower(name) = ?', company.downcase).first

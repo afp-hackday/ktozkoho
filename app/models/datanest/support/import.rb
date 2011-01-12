@@ -10,6 +10,7 @@ module Datanest
         include Datanest::Support::Cleaning::PartyNames
         include Datanest::Support::Cleaning::SubjectMapper
         include Datanest::Support::Cleaning::EmptyAttributesToNull
+        include Datanest::Support::Cleaning::CompanyNameNormalization
       end
 
       module ClassMethods
