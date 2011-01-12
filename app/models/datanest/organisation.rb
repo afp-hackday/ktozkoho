@@ -1,7 +1,6 @@
 #coding: utf-8
-class Datanest::Organisation < Datanest::Basis
-  extend Datanest::Support::FastCSVImport
-  include Datanest::Support::Cleaning::CompanyNameNormalization
+class Datanest::Organisation < ActiveRecord::Base
+  include Datanest::Support::Import
 
   LEGAL_FORM_NOT_IN_ORSR = 'Podnikateľ-fyzická osoba-nezapísaný v obchodnom registri'
 
@@ -10,6 +9,9 @@ class Datanest::Organisation < Datanest::Basis
   has_many :addresses, :class_name => 'Datanest::OrganisationAddress'
   has_many :name_histories, :class_name => 'Datanest::OrganisationNameHistory'
   has_one  :subject
+
+  set_company_name_column :name
+  before_create :normalize_company_name
 
   scope :in_orsr, lambda { where('legal_form != ?', Datanest::Organisation::LEGAL_FORM_NOT_IN_ORSR) }
   scope :name_similar_to, lambda { |name| where('name % ?', name) }
