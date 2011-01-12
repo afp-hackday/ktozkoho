@@ -9,11 +9,10 @@ module Datanest
 
         def normalize_company_name
           if respond_to? :company and not company.nil?
-            puts "Company before #{company}"
             company.gsub!("\302\240", " ")
-            puts "Company after #{company}"
-            company =  company.squish
-            { SPOL_SRO_PATTERNS: 's.r.o.', AS_PATTERNS: 'a.s.', VOS_PATTERNS: 'v.o.s.' }.each do |patterns, replacement|
+            squished = company.squish
+            company = squished
+            { SPOL_SRO_PATTERNS => 's.r.o.', AS_PATTERNS => 'a.s.', VOS_PATTERNS => 'v.o.s.' }.each_pair do |patterns, replacement|
               patterns.each { |pattern| company.gsub!(pattern, replacement) }
             end
           end

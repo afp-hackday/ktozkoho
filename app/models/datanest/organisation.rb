@@ -1,6 +1,7 @@
 #coding: utf-8
 class Datanest::Organisation < Datanest::Basis
   extend Datanest::Support::FastCSVImport
+  include Datanest::Support::Cleaning::CompanyNameNormalization
 
   LEGAL_FORM_NOT_IN_ORSR = 'Podnikateľ-fyzická osoba-nezapísaný v obchodnom registri'
 
