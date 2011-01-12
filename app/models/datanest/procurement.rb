@@ -1,9 +1,5 @@
 #coding: utf-8
-class Datanest::Procurement < ActiveRecord::Base
-  include Datanest::Base
-  include Datanest::Support::Import
-  include Datanest::Support::ManuallyMappable
-
+class Datanest::Procurement < Datanest::Basis
   csv 'procurements_2-dump.csv'
   csv 'procurements-dump.csv',
         :year => 11,
@@ -20,11 +16,7 @@ class Datanest::Procurement < ActiveRecord::Base
         :is_VAT_included => 17,
         :source_url => 18
 
-  before_create  :convert_financial_attributes, :empty_attributes_to_null,
-                 :link_subject
   display_name   'Verejné obstarávania'
-
-  belongs_to :subject
 
   def address
     supplier_region

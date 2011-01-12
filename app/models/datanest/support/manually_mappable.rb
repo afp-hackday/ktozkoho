@@ -5,10 +5,10 @@ module Datanest
       extend ActiveSupport::Concern
 
       included do
-        scope :not_locked, where('locked_at IS NULL OR locked_at < ?', Time.now - 20.minutes)
-        scope :manual_mapping_not_tried, where('mapping_strategy IS NULL OR mapping_strategy != ?', 'impossible')
-        scope :not_yet_mapped, where('subject_id IS NULL')
-        scope :mappable, not_yet_mapped.manual_mapping_not_tried.not_locked.where('company IS NOT NULL')
+        scope :not_locked, lambda { where('locked_at IS NULL OR locked_at < ?', Time.now - 20.minutes) }
+        scope :manual_mapping_not_tried, lambda { where('mapping_strategy IS NULL OR mapping_strategy != ?', 'impossible') }
+        scope :not_yet_mapped, lambda { where('subject_id IS NULL') }
+        scope :mappable, lambda { not_yet_mapped.manual_mapping_not_tried.not_locked.where('company IS NOT NULL') }
 
         has_many :best_candidates, :class_name => 'Datanest::Organisation', :finder_sql =>
                 'SELECT o.*, similarity(o.name, \'#{Company.clean_name(company)}\')

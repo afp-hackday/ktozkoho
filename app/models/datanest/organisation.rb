@@ -1,6 +1,5 @@
 #coding: utf-8
-class Datanest::Organisation < ActiveRecord::Base
-  include Datanest::Base
+class Datanest::Organisation < Datanest::Basis
   extend Datanest::Support::FastCSVImport
 
   LEGAL_FORM_NOT_IN_ORSR = 'Podnikateľ-fyzická osoba-nezapísaný v obchodnom registri'
@@ -11,7 +10,7 @@ class Datanest::Organisation < ActiveRecord::Base
   has_many :name_histories, :class_name => 'Datanest::OrganisationNameHistory'
   has_one  :subject
 
-  scope :in_orsr, where('legal_form != ?', Datanest::Organisation::LEGAL_FORM_NOT_IN_ORSR)
+  scope :in_orsr, lambda { where('legal_form != ?', Datanest::Organisation::LEGAL_FORM_NOT_IN_ORSR) }
   scope :name_similar_to, lambda { |name| where('name % ?', name) }
   scope :name_like, lambda { |name| where("lower(name) like lower(?)", name + '%') }
   scope :historical_address_similar_to, lambda { |address|

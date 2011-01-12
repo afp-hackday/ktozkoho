@@ -8,9 +8,14 @@ module Datanest
         VOS_PATTERNS = ['v.o.s.', 'v.o.s', 'v. o. s.']
 
         def normalize_company_name
-          company = company.gsub("\302\240", " ").squish
-          { SPOL_SRO_PATTERNS: 's.r.o.', AS_PATTERNS: 'a.s.', VOS_PATTERNS: 'v.o.s.' }.each do |patterns, replacement|
-            patterns.each { |pattern| company.gsub!(pattern, replacement) }
+          if respond_to? :company and not company.nil?
+            puts "Company before #{company}"
+            company.gsub!("\302\240", " ")
+            puts "Company after #{company}"
+            company =  company.squish
+            { SPOL_SRO_PATTERNS: 's.r.o.', AS_PATTERNS: 'a.s.', VOS_PATTERNS: 'v.o.s.' }.each do |patterns, replacement|
+              patterns.each { |pattern| company.gsub!(pattern, replacement) }
+            end
           end
         end
       end
