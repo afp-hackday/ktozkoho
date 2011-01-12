@@ -12,11 +12,12 @@ module Datanest
 
         def link_organisation
           best_match, strategy = try_exact_match, 'exact'
+          best_match, strategy = try_like_match, 'like'
           best_match, strategy = try_fuzzy_historical_match, 'fuzzy_historical' if best_match.nil?
           best_match, strategy = try_fuzzy_match, 'fuzzy' if best_match.nil?
 
           if best_match
-            link_best_match best_match, strategy
+            link_subject(best_match, strategy)
             puts "#{company}, #{address} --> #{best_match.name}, #{best_match.address} [by #{strategy}]"
           else
             puts "#{company}, #{address} --> No match.."
@@ -29,6 +30,20 @@ module Datanest
           Datanest::Organisation.in_orsr.where('lower(name) = ?', company.downcase).first
         end
 
+        def try_like_match(name_part)
+          matches = Datanest::Organisation.in_orsr.name_like(name_part)
+          if matches.size == 1
+            matches.first
+          else
+            index = name_part.rindex(/[^\w]/)
+            if index
+              try_like_match(name_part[0, index])
+            else
+              nil
+            end
+          end
+        end
+
         def try_fuzzy_historical_match
           order_expression = "similarity(#{ActiveRecord::Base.quote_value(company)}, name) DESC"
           connection.execute "SELECT set_limit(0.5)"
@@ -39,18 +54,6 @@ module Datanest
           order_expression = "similarity(#{ActiveRecord::Base.quote_value(company)}, name) DESC"
           connection.execute "SELECT set_limit(0.5)"
           Datanest::Organisation.in_orsr.name_similar_to(company).current_address_similar_to(address).order(order_expression).limit(1).first
-        end
-
-        def link_best_match organisation, strategy
-          self.subject = find_or_create_subject(organisation)
-          self.mapping_strategy = strategy
-        end
-
-        def find_or_create_subject organisation
-          Company.find_or_create_by_datanest_organisation_id(
-                :datanest_organisation_id => organisation.id,
-                :company => organisation.name,
-                :address => organisation.address)
         end
 
         def link_physical_person
