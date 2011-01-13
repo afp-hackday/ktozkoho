@@ -5,11 +5,9 @@ module Datanest
       module CompanyNameNormalization
         extend ActiveSupport::Concern
 
-        # TODO tu zalezi na poradi - malo by to byt zoradene podla dlzky, inak
-        # napriklad s.r.o zhltne s.r.o. a vo vysledku je s.r.o..
-        SPOL_SRO_PATTERNS = ['s r.o.', 's.r.o.', 'spol s r.o.', 'spol. s r.o.', 'spol s.r.o.', 'spol. s.r.o.', 'spoločnosť s ručením obmedzeným', 'spol.s r.o.', 'spol.s.r.o.', 'spol. - s.r.o.', 'spol. s r. o.', 'spol.s.r.o', 'spol.s.r.', 'spol. s. r. o.', 'spol.s.r.o', 'spol. s r.o.', 's. r. o.', 's.r.o']
-        AS_PATTERNS = ['a.s.', 'a. s.', 'akciová spoločnosť']
-        VOS_PATTERNS = ['v.o.s.', 'v.o.s', 'v. o. s.']
+        SPOL_SRO_PATTERNS = ['s r.o.', 'spol s r.o.', 'spol. s r.o.', 'spol s.r.o.', 'spol. s.r.o.', 'spoločnosť s ručením obmedzeným', 'spol.s r.o.', 'spol.s.r.o.', 'spol. - s.r.o.', 'spol. s r. o.', 'spol.s.r.o', 'spol.s.r.', 'spol. s. r. o.', 'spol. s r.o.', 's. r. o.', 's.r.o'].sort{|a,b| a.length <=> b.length}.reverse.unshift('s.r.o.').freeze
+        AS_PATTERNS = ['a.s.', 'a. s.', 'akciová spoločnosť'].freeze
+        VOS_PATTERNS = ['v.o.s.', 'v.o.s', 'v. o. s.'].freeze
 
         def company_name_column
           :company
