@@ -4,21 +4,20 @@ module Datanest
       module FinancialAttributes
         extend ActiveSupport::Concern
 
-        class << self
-          attr_accessor :additional_currency_columns
+        def currency_columns
+          attribute_names.grep(/amount$/)
         end
 
-        module ClassMethods
-          def additional_currency_columns *currency_columns
-            FinancialAttributes.additional_currency_columns = currency_columns
+        included do
+          def self.additional_currency_columns *currency_columns
+            define_method :currency_columns do
+              attribute_names.grep(/amount$/) + currency_columns
+            end
           end
         end
 
         def convert_financial_attributes
-          currency_columns = attribute_names.grep(/amount$/)
-          FinancialAttributes.additional_currency_columns ||= []
-          currency_columns += FinancialAttributes.additional_currency_columns
-
+          puts "Convering: #{currency_columns}"
           exchange = {
             'Sk' => 30.126,
             'SKK' => 30.126,
@@ -37,7 +36,7 @@ module Datanest
               self[column] = self[column] / exchange[self[:currency]] unless self[column].nil?
               self[:currency] = 'EUR'
             else
-              puts "Unknown currency #{self[:currency]}" 
+              puts "Unknown currency #{self[:currency]}"
             end
           end
         end
