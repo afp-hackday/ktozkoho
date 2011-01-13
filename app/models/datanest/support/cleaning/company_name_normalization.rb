@@ -19,7 +19,7 @@ module Datanest
             squished = self[company_name_column].squish
             self[company_name_column] = squished
             { SPOL_SRO_PATTERNS => 's.r.o.', AS_PATTERNS => 'a.s.', VOS_PATTERNS => 'v.o.s.' }.each_pair do |patterns, replacement|
-              patterns.each { |pattern| self[company_name_column].gsub!(pattern, replacement) }
+              patterns.detect { |pattern| self[company_name_column].gsub!(pattern, replacement) }
             end
           end
         end

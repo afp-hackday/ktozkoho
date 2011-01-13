@@ -15,4 +15,11 @@ class Company < Subject
       :company => organization.name,
       :address => organization.address)
   end
+
+  def load_connections
+    FoafProxy.related_companies(company).each do |related|
+      related_subject = Subject.find_or_create_by_name_fuzzy(related)
+      connections.create(:connected_subject => related_subject)
+    end
+  end
 end

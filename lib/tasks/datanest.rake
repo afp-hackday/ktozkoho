@@ -37,4 +37,9 @@ namespace :datanest do
   task :historical_data => :environment do
     Wrappers::ORSRWrapper.reload_historical_data
   end
+
+  desc "Reload connections from foaf"
+  task :foaf => :environment do
+    Wrappers::FoafWrapper.reload_all_connections
+  end
 end
