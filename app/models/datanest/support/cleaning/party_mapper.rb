@@ -2,8 +2,8 @@
 module Datanest
   module Support
     module Cleaning
-      module PartyNames
-        def correct_party_names
+      module PartyMapper
+        def map_party
           party_corrections = {
             'Smer' => 'SMER',
             'SMER-SD' => 'SMER',
@@ -13,9 +13,11 @@ module Datanest
             'NÁDEJ' => 'Nádej'
           }
 
-          unless party_corrections[self[:party]].nil?
-            self[:party] = party_corrections[self[:party]]
+          unless party_corrections[self[:party_name]].nil?
+            self[:party_name] = party_corrections[self[:party_name]]
           end
+
+          self.party = Party.find_by_acronym(self[:party_name])
         end
       end
     end

@@ -7,7 +7,7 @@ module Datanest
 
       included do
         include Datanest::Support::Cleaning::FinancialAttributes
-        include Datanest::Support::Cleaning::PartyNames
+        include Datanest::Support::Cleaning::PartyMapper
         include Datanest::Support::Cleaning::SubjectMapper
         include Datanest::Support::Cleaning::EmptyAttributesToNull
         include Datanest::Support::Cleaning::CompanyNameNormalization

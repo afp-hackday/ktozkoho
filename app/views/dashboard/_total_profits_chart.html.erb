@@ -38,7 +38,7 @@ $(document).ready(function() {
          borderWidth: 0
       },
       series: [
-      <%= @profits_per_year.collect { |party, profits| "{name: '#{party.name}', data: #{profits.inspect}}" }.join(',') %>
+      <%= @profits_per_year.collect { |party, profits| "{name: '#{party.acronym}', data: #{profits.inspect}}" }.join(',') %>
       ],
       credits: {
         enabled: false
