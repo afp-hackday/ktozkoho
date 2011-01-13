@@ -1,0 +1,5 @@
+- doriesit replacovanie s.r.o. & friends
+- statny podnik - s.p. je problem?
+- mame k dispozicii historicke mena firiem z ORSR ale vobec ich nepouzivame
+- do manualneho mapovania zapojit vysledky z viacerych strategii
+- nacitavanie prepojeni z foaf ako rake task & dj
