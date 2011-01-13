@@ -6,4 +6,13 @@ class Datanest::Consolidation < Datanest::Basis
   def address
     "#{psc} #{city}"
   end
+
+  def year
+    updated_at.year
+  end
+
+  def profit
+    amount
+  end
+
 end

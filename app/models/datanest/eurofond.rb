@@ -4,4 +4,8 @@ class Datanest::Eurofond < Datanest::Basis
 
   csv                         'eurofondy-dump.csv'
   display_name                'Eurofondy'
+
+  def profit
+    grant_amount
+  end
 end

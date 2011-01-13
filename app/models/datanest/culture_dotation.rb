@@ -4,4 +4,8 @@ class Datanest::CultureDotation < Datanest::Basis
 
   csv                         'dotacie_kultura-dump.csv'
   display_name                'Kultúrne dotácie'
+  
+  def profit
+    dissaving
+  end
 end

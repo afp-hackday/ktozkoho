@@ -9,7 +9,8 @@ module Datanest
             'SMER-SD' => 'SMER',
             'SDKÚ-DS' => 'SDKÚ',
             'SDKU' => 'SDKÚ',
-            'LS-HZDS' => 'HZDS'
+            'LS-HZDS' => 'HZDS',
+            'NÁDEJ' => 'Nádej'
           }
 
           unless party_corrections[self[:party]].nil?

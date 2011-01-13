@@ -1,5 +1,5 @@
 #coding: utf-8
-class Datanest::PartyLoan < Datanest::Basis
+class Datanest::PartyLoan < Datanest::Investment
   before_create :correct_party_names
 
   csv           'pozicky_stranam-dump.csv'

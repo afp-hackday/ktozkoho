@@ -11,4 +11,8 @@ class Datanest::BuildingDotation < Datanest::Basis
 
   def title
   end
+
+  def profit
+    assigned_amount
+  end
 end

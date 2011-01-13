@@ -17,7 +17,6 @@ module Datanest
         end
 
         def convert_financial_attributes
-          puts "Convering: #{currency_columns}"
           exchange = {
             'Sk' => 30.126,
             'SKK' => 30.126,

@@ -21,4 +21,9 @@ class Datanest::Procurement < Datanest::Basis
   def address
     supplier_region
   end
+
+  def profit
+    price_amount
+  end
+
 end

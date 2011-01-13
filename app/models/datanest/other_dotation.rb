@@ -2,4 +2,8 @@
 class Datanest::OtherDotation < Datanest::Basis
   csv            'ine_dotacie-dump.csv'
   display_name   'Iné dotácie'
+
+  def profit
+    amount
+  end
 end
