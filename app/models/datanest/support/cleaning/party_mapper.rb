@@ -5,14 +5,14 @@ module Datanest
       module PartyMapper
         def map_party
           party_corrections = {
-            'Smer' => 'SMER',
-            'SMER-SD' => 'SMER',
-            'SDKÚ-DS' => 'SDKÚ',
-            'SDKU' => 'SDKÚ',
-            'LS-HZDS' => 'HZDS',
-            'NÁDEJ' => 'Nádej'
+              'Smer'  => 'SMER-SD',
+              'SMER'  => 'SMER-SD',
+              'SDKÚ'  => 'SDKÚ-DS',
+              'SDKU'  => 'SDKÚ-DS',
+              'HZDS'  => 'LS-HZDS',
+              'NÁDEJ' => 'EDS',
+              'Nádej' => 'EDS'
           }
-
           unless party_corrections[self[:party_name]].nil?
             self[:party_name] = party_corrections[self[:party_name]]
           end
