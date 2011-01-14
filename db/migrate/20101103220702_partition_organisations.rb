@@ -2,7 +2,6 @@
 class PartitionOrganisations < ActiveRecord::Migration
   def self.up
     execute "TRUNCATE datanest_organisations"
-    remove_index :datanest_organisations, :name_trgm
 
     execute <<-SQL
       CREATE TABLE datanest_organisations_not_in_orsr (
@@ -15,8 +14,6 @@ class PartitionOrganisations < ActiveRecord::Migration
         CHECK (legal_form != 'Podnikateľ-fyzická osoba-nezapísaný v obchodnom registri')
       ) INHERITS(datanest_organisations)
     SQL
-
-    execute "CREATE LANGUAGE plpgsql"
 
     execute <<-SQL
       CREATE OR REPLACE FUNCTION organisations_insert_trigger()
