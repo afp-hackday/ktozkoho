@@ -5,4 +5,5 @@ Investitions::Application.routes.draw do
   match 'dashboard/index' => 'dashboard#index'
 
   resources :subjects
+  resources :parties
 end

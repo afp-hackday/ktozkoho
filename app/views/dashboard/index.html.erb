@@ -1,1 +1,11 @@
 <%= render 'total_profits_chart' %>
+<% @parties.each do |party| %>
+    <div class="party-summary">
+      <%= image_tag(party.logo_path, :size => "24x24") %>
+      <%= link_to(party.name,party_path(party)) %>
+      Investície do strany: <%=  number_to_currency(party.incomes, :unit => "&euro;") %>
+      Výnosy strany: <%=  number_to_currency(party.profits, :unit => "&euro;") %>
+    </div>
+<% end %>
+
+

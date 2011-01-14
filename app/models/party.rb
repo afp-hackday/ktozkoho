@@ -18,4 +18,11 @@ class Party < ActiveRecord::Base
      end
   end
 
+  def incomes
+    party_sponsors.sum('amount')+party_loans.sum('amount')
+  end
+
+  def profits
+    profits_of_related_subjects_per_year.values.reduce(:+)
+  end
 end
