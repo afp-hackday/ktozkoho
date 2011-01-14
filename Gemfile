@@ -12,6 +12,10 @@ gem 'delayed_job', '2.1.0.pre2'
 gem 'jquery-rails'
 gem 'haml'
 
+group :development, :test do
+  gem 'silent-postgres'
+end
+
 
 
 # Use unicorn as the web server
