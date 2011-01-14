@@ -13,10 +13,7 @@ module Datanest
         private
 
         def link_organisation
-          best_match, strategy = try_exact_match, 'exact'
-          best_match, strategy = try_like_match(company), 'like'
-          best_match, strategy = try_fuzzy_historical_match, 'fuzzy_historical' if best_match.nil?
-          best_match, strategy = try_fuzzy_match, 'fuzzy' if best_match.nil?
+          best_match, strategy = find_best_match
 
           if best_match
             link_matched_subject(best_match, strategy)
@@ -24,36 +21,6 @@ module Datanest
           else
             puts "#{company}, #{address} --> No match.."
           end
-        end
-
-        def try_exact_match
-          Datanest::Organisation.in_orsr.where('lower(name) = ?', company.downcase).first
-        end
-
-        def try_like_match(name_part)
-          matches = Datanest::Organisation.in_orsr.name_like(name_part)
-          if matches.size == 1
-            matches.first
-          else
-            index = name_part.rindex(/[^\w]/)
-            if index
-              try_like_match(name_part[0, index])
-            else
-              nil
-            end
-          end
-        end
-
-        def try_fuzzy_historical_match
-          order_expression = "similarity(#{ActiveRecord::Base.quote_value(company)}, name) DESC"
-          connection.execute "SELECT set_limit(0.5)"
-          Datanest::Organisation.in_orsr.name_similar_to(company).historical_address_similar_to(address).order(order_expression).limit(1).first
-        end
-
-        def try_fuzzy_match
-          order_expression = "similarity(#{ActiveRecord::Base.quote_value(company)}, name) DESC"
-          connection.execute "SELECT set_limit(0.5)"
-          Datanest::Organisation.in_orsr.name_similar_to(company).current_address_similar_to(address).order(order_expression).limit(1).first
         end
 
         def link_physical_person

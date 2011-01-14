@@ -15,7 +15,7 @@ class Datanest::Organisation < ActiveRecord::Base
 
   scope :in_orsr, lambda { where('legal_form != ?', Datanest::Organisation::LEGAL_FORM_NOT_IN_ORSR) }
   scope :name_similar_to, lambda { |name| where('name % ?', name) }
-  scope :name_like, lambda { |name| where("lower(name) like lower(?)", name + '%') }
+  scope :name_like, lambda { |name| where("lower(name) like ?", name.downcase + '%') }
   scope :historical_address_similar_to, lambda { |address|
     joins(:addresses)
     .where("strip_address(datanest_organisation_addresses.address) % strip_address(?)", address)

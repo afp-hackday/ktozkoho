@@ -1,4 +1,5 @@
 class Datanest::Basis < ActiveRecord::Base
+  include Datanest::Support::Matching
   include Datanest::Support::Import
   include Datanest::Support::ManuallyMappable
 
