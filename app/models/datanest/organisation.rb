@@ -11,7 +11,9 @@ class Datanest::Organisation < ActiveRecord::Base
   has_one  :subject
 
   set_company_name_column :name
-  before_create :normalize_company_name
+
+  before_create :abort_if_not_in_orsr, :normalize_company_name
+  after_create  :split_name_and_address
 
   scope :in_orsr, lambda { where('legal_form != ?', Datanest::Organisation::LEGAL_FORM_NOT_IN_ORSR) }
   scope :name_similar_to, lambda { |name| where('name % ?', name) }
@@ -30,4 +32,26 @@ class Datanest::Organisation < ActiveRecord::Base
     where("strip_address(address) % strip_address(?)", address)
     .where("similarity(strip_address(address), strip_address(?)) > ?", address, similarity)
   }
+
+  def self.load_csv_data
+    OrganisationNameHistory.delete_all
+    OrganisationAddress.delete_all
+    super
+  end
+
+  def in_orsr?
+    legal_form != LEGAL_FORM_NOT_IN_ORSR
+  end
+
+  private
+  def split_name_and_address
+    if in_orsr?
+      self.addresses.create(:address => address)
+      self.name_histories.create(:name => name)
+    end
+  end
+
+  def abort_if_not_in_orsr
+    false unless in_orsr?
+  end
 end
