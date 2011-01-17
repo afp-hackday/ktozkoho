@@ -40,11 +40,10 @@ class Subject < ActiveRecord::Base
 
   private
   def yearly_summary_of(subjects, of)
-    summary = {}
+    summary = (1993..Time.now.year).to_a.inject({}){|hash, year| hash[year] = 0; hash}
     subjects.group_by(&:year).each do |year, subjects_array|
       summary.merge!(year => subjects_array.sum{ |s| s.send of}){|key, original_value, new_value| original_value + new_value }
     end
     summary
   end
-
 end

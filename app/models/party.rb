@@ -11,7 +11,7 @@ class Party < ActiveRecord::Base
   end
 
   def profits_of_related_subjects_per_year
-     related_subjects.inject({}) do |profits, subject|
+    related_subjects.inject({}) do |profits, subject|
        profits.merge(subject.profits_per_year) do |key, summary, profit|
          summary + profit
        end
@@ -23,6 +23,6 @@ class Party < ActiveRecord::Base
   end
 
   def profits
-    profits_of_related_subjects_per_year.values.reduce(:+)
+    profits_of_related_subjects_per_year.values.inject(0) {|sum, value| sum + value}
   end
 end
