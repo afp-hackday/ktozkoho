@@ -42,4 +42,29 @@ namespace :datanest do
   task :foaf => :environment do
     Wrappers::FoafWrapper.reload_all_connections
   end
+
+  desc "Rebuild advantages table"
+  task :advantages => :environment do
+    ActiveRecord::Base.connection.execute <<-SQL
+      TRUNCATE advantages;
+      INSERT INTO advantages
+      SELECT subject_id, dotation_amount as profit, year, 'Datanest::AgroDotation' as type FROM datanest_agro_dotations WHERE subject_id IS NOT NULL
+      UNION ALL
+      SELECT subject_id, assigned_amount as profit, year, 'Datanest::BuildingDotation' as type FROM datanest_building_dotations
+      UNION ALL
+      SELECT subject_id, amount as profit, date_part('year', updated_at), 'Datanest::Consolidation' as type FROM datanest_consolidations
+      UNION ALL
+      SELECT subject_id, dissaving as profit, year, 'Datanest::CultureDotation' as type FROM datanest_culture_dotations
+      UNION ALL
+      SELECT subject_id, grant_amount as profit, year, 'Datanest::Eurofond' as type FROM datanest_eurofonds
+      UNION ALL
+      SELECT subject_id, amount as profit, year, 'Datanest::ForgivenToll' as type FROM datanest_forgiven_tolls
+      UNION ALL
+      SELECT subject_id, amount as profit, year, 'Datanest::OtherDotation' as type FROM datanest_other_dotations
+      UNION ALL
+      SELECT subject_id, price_amount as profit, date_part('year', sold_at), 'Datanest::Privatization' as type FROM datanest_privatizations
+      UNION ALL
+      SELECT subject_id, price_amount as profit, year, 'Datanest::Procurement' as type FROM datanest_procurements
+    SQL
+  end
 end
