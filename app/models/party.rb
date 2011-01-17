@@ -5,7 +5,6 @@ class Party < ActiveRecord::Base
   has_many :loaning_subjects, :through => :party_loans, :class_name => 'Subject', :source => :subject
   has_many :sponsoring_subjects, :through => :party_sponsors, :class_name => 'Subject', :source => :subject
 
-
   def related_subjects
     loaning_subjects + sponsoring_subjects
   end
@@ -24,5 +23,9 @@ class Party < ActiveRecord::Base
 
   def profits
     profits_of_related_subjects_per_year.values.inject(0) {|sum, value| sum + value}
+  end
+
+  def portfolio
+    Datanest::OtherDotation.where(:subject_id => Party.find(40).related_subjects.collect(&:id)).sum('amount')
   end
 end

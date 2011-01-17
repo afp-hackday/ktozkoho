@@ -1,0 +1,59 @@
+<script>
+    $.get("<%= url_for(portfolio_party_path) %>", function(data) {
+        var options = {
+            chart: {
+                renderTo: 'container',
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Browser market shares at a specific website, 2010'
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>' + this.point.name + '</b>: ' + this.y + ' %';
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: []
+        };
+
+        var series =
+            {
+                type: 'pie',
+                name: 'Browser share',
+                data: [
+//                    ['Firefox',   45.0],
+//                    ['IE',       26.8],
+//                    {
+//                        name: 'Chrome',
+//                        y: 12.8,
+//                        sliced: true,
+//                        selected: true
+//                    },
+//                    ['Safari',    8.5],
+//                    ['Opera',     6.2],
+//                    ['Others',   0.7]
+                ]
+            }
+        ;
+        $.each(data, function(label, value) {
+                series.data.push([label,value]);
+        });
+        options.series.push(series);
+        // Create the chart
+        var chart = new Highcharts.Chart(options);
+    })
+            ;
+</script>
+<div id="container"></div>

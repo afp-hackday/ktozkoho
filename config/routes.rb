@@ -5,5 +5,9 @@ Investitions::Application.routes.draw do
   match 'dashboard/index' => 'dashboard#index'
 
   resources :subjects
-  resources :parties
+  resources :parties do
+    member do
+      get 'portfolio'
+    end
+  end
 end
