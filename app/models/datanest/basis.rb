@@ -8,7 +8,7 @@ class Datanest::Basis < ActiveRecord::Base
   belongs_to :subject
 
   before_create :convert_financial_attributes, :empty_attributes_to_null,
-                :link_subject, :normalize_company_name
+                :normalize_company_name, :normalize_ico, :link_subject
 
   before_update :update_same_company_records
 
