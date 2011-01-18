@@ -6,7 +6,7 @@ class PartiesController < ApplicationController
 
   def portfolio
     respond_to do |format|
-      format.json {render :json => {'Tomas' => 50, 'Dusan' => 20}.to_json}
+      format.json {render :json => Party.find(params[:id]).portfolio.to_json}
     end
   end
 

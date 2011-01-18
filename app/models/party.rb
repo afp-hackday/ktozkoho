@@ -26,6 +26,6 @@ class Party < ActiveRecord::Base
   end
 
   def portfolio
-    Datanest::OtherDotation.where(:subject_id => Party.find(40).related_subjects.collect(&:id)).sum('amount')
+    Advantage.where(:subject_id => related_subjects.collect(&:id)).group(:type).sum(:profit)
   end
 end

@@ -1,6 +1,7 @@
 class Subject < ActiveRecord::Base
   belongs_to :datanest_organisation
 
+  has_many :advantages
   has_many :agro_dotations, :class_name => 'Datanest::AgroDotation'
   has_many :building_dotations, :class_name => 'Datanest::BuildingDotation'
   has_many :consolidations, :class_name => 'Datanest::Consolidation'
