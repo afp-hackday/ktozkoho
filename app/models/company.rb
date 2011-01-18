@@ -22,4 +22,8 @@ class Company < Subject
       connections.create(:connected_subject => related_subject)
     end
   end
+
+  def label
+    company
+  end
 end

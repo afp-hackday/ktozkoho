@@ -6,4 +6,8 @@ class Datanest::PartyLoan < Datanest::BaseInvestment
   def address
     "#{zip}, #{city}"
   end
+
+  def self.label
+    "Pôžička strane"
+  end
 end

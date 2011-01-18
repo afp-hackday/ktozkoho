@@ -47,24 +47,35 @@ namespace :datanest do
   task :advantages => :environment do
     ActiveRecord::Base.connection.execute <<-SQL
       TRUNCATE advantages;
-      INSERT INTO advantages(subject_id,profit,year,type)
-      SELECT subject_id, dotation_amount as profit, year, 'Datanest::AgroDotation' FROM datanest_agro_dotations WHERE subject_id IS NOT NULL
+      INSERT INTO advantages(subject_id,profit,year,advantage_type, advantage_id)
+      SELECT subject_id, dotation_amount as profit, year, 'Datanest::AgroDotation', id FROM datanest_agro_dotations WHERE subject_id IS NOT NULL
       UNION ALL
-      SELECT subject_id, assigned_amount as profit, year, 'Datanest::BuildingDotation' FROM datanest_building_dotations WHERE subject_id IS NOT NULL
+      SELECT subject_id, assigned_amount as profit, year, 'Datanest::BuildingDotation', id  FROM datanest_building_dotations WHERE subject_id IS NOT NULL
       UNION ALL
-      SELECT subject_id, amount as profit, date_part('year', updated_at), 'Datanest::Consolidation' FROM datanest_consolidations WHERE subject_id IS NOT NULL
+      SELECT subject_id, amount as profit, date_part('year', updated_at), 'Datanest::Consolidation', id  FROM datanest_consolidations WHERE subject_id IS NOT NULL
       UNION ALL
-      SELECT subject_id, dissaving as profit, year, 'Datanest::CultureDotation' FROM datanest_culture_dotations WHERE subject_id IS NOT NULL
+      SELECT subject_id, dissaving as profit, year, 'Datanest::CultureDotation', id  FROM datanest_culture_dotations WHERE subject_id IS NOT NULL
       UNION ALL
-      SELECT subject_id, grant_amount as profit, year, 'Datanest::Eurofond' FROM datanest_eurofonds WHERE subject_id IS NOT NULL
+      SELECT subject_id, grant_amount as profit, year, 'Datanest::Eurofond', id  FROM datanest_eurofonds WHERE subject_id IS NOT NULL
       UNION ALL
-      SELECT subject_id, amount as profit, year, 'Datanest::ForgivenToll' FROM datanest_forgiven_tolls WHERE subject_id IS NOT NULL
+      SELECT subject_id, amount as profit, year, 'Datanest::ForgivenToll', id  FROM datanest_forgiven_tolls WHERE subject_id IS NOT NULL
       UNION ALL
-      SELECT subject_id, amount as profit, year, 'Datanest::OtherDotation' FROM datanest_other_dotations WHERE subject_id IS NOT NULL
+      SELECT subject_id, amount as profit, year, 'Datanest::OtherDotation', id  FROM datanest_other_dotations WHERE subject_id IS NOT NULL
       UNION ALL
-      SELECT subject_id, price_amount as profit, date_part('year', sold_at), 'Datanest::Privatization' FROM datanest_privatizations WHERE subject_id IS NOT NULL
+      SELECT subject_id, price_amount as profit, date_part('year', sold_at), 'Datanest::Privatization', id  FROM datanest_privatizations WHERE subject_id IS NOT NULL
       UNION ALL
-      SELECT subject_id, price_amount as profit, year, 'Datanest::Procurement' FROM datanest_procurements WHERE subject_id IS NOT NULL
+      SELECT subject_id, price_amount as profit, year, 'Datanest::Procurement', id  FROM datanest_procurements WHERE subject_id IS NOT NULL
+    SQL
+  end
+
+  desc "Rebuild investments table"
+  task :investments => :environment do
+    ActiveRecord::Base.connection.execute <<-SQL
+      TRUNCATE investments;
+      INSERT INTO investments(subject_id,amount,year,investment_type, investment_id, party_id)
+      SELECT subject_id, amount, year, 'Datanest::PartyLoan', id, party_id FROM datanest_party_loans WHERE subject_id IS NOT NULL
+      UNION ALL
+      SELECT subject_id, amount, year, 'Datanest::PartySponsor', id, party_id FROM datanest_party_sponsors WHERE subject_id IS NOT NULL
     SQL
   end
 end

@@ -5,9 +5,8 @@ class Party < ActiveRecord::Base
   has_many :loaning_subjects, :through => :party_loans, :class_name => 'Subject', :source => :subject
   has_many :sponsoring_subjects, :through => :party_sponsors, :class_name => 'Subject', :source => :subject
 
-  def related_subjects
-    loaning_subjects + sponsoring_subjects
-  end
+  has_many :investments
+  has_many :related_subjects, :through => :investments, :class_name => 'Subject', :source => :subject
 
   def profits_of_related_subjects_per_year
     total_profits = (1993..Time.now.year).to_a.inject({}){|hash, year| hash[year] = 0; hash}

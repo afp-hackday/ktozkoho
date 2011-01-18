@@ -5,4 +5,8 @@ class Person < Subject
       connections.create(:connected_subject => related_subject)
     end
   end
+
+  def label
+    "#{title} #{name} #{surname}"
+  end
 end

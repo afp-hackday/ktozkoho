@@ -2,6 +2,8 @@ class Subject < ActiveRecord::Base
   belongs_to :datanest_organisation
 
   has_many :advantages
+  has_many :investments
+  
   has_many :agro_dotations, :class_name => 'Datanest::AgroDotation'
   has_many :building_dotations, :class_name => 'Datanest::BuildingDotation'
   has_many :consolidations, :class_name => 'Datanest::Consolidation'
@@ -21,10 +23,6 @@ class Subject < ActiveRecord::Base
     connection.execute "SELECT set_limit(0.9)"
     order_expression = "similarity(#{ActiveRecord::Base.quote_value(name)}, company) DESC"
     where('company % ?', name).order(order_expression).limit(1).first
-  end
-
-  def investments
-    party_loans + party_sponsors
   end
 
   def profits_per_year

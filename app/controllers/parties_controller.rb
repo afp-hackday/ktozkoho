@@ -2,6 +2,11 @@ class PartiesController < ApplicationController
 
   def show
     @party = Party.find(params[:id])
+    @party_sponsors = @party.related_subjects.group("subject_id").order("sum_amount desc").sum("amount")
+    @party_sponsors = @party_sponsors.inject({}) do |hash, key_value|
+      hash[Subject.find(key_value[0])] = key_value[1]
+      hash
+    end
   end
 
   def portfolio

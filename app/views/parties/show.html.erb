@@ -1,1 +1,19 @@
 <%= render 'portfolio_pie_chart' %>
+
+<div class="party-sponsors">
+  <% @party_sponsors.each do |subject, amount| %>
+      <div>
+        <%= subject.label %>
+        <%= number_to_currency(amount, :unit => '&euro;') %>
+        <div class="sponsor-overview">
+          <% subject.investments.each do |investment|  %>
+          <div>
+            <%= number_to_currency(investment.amount, :unit => '&euro;') %>
+            <%= investment.year %>
+            <%= investment.investment_type.constantize.label %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+  <% end %>
+</div>
