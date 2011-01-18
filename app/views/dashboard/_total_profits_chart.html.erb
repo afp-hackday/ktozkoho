@@ -1,52 +1,54 @@
 <script>
+    $.get("<%= url_for(profits_per_year_parties_path) %>", function(data) {
+        var options = {
+            chart: {
+                renderTo: 'container',
+                defaultSeriesType: 'line',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: [<%= (1993..Time.now.year).to_a.collect {|e| "'#{e}'"}.join(", ") %>]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Výnos fondu politickej strany v €'
+                },
+                plotLines: [
+                    {
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }
+                ]
+            },
+            tooltip: {
+                formatter: function() {
+                    return 'Fond <b>' + this.series.name + '</b> zarobil v roku ' +
+                            this.x + ' svojim investorom ' + Highcharts.numberFormat(this.y, 0, null, ' ') + 'EUR';
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0
+            },
+            series: []
+        };
 
-var chart;
-$(document).ready(function() {
-   chart = new Highcharts.Chart({
-      chart: {
-         renderTo: 'container',
-         defaultSeriesType: 'line',
-         marginRight: 130,
-         marginBottom: 25
-      },
-      xAxis: {
-        categories: [<%= (1993..Time.now.year).to_a.collect {|e| "'#{e}'"}.join(", ") %>]
-      },
-      yAxis: {
-         min: 0,
-         title: {
-            text: 'Výnos fondu politickej strany v €'
-         },
-         plotLines: [{
-            value: 0,
-            width: 1,
-            color: '#808080'
-         }]
-      },
-      tooltip: {
-         formatter: function() {
-                   return '<b>'+ this.series.name +'</b><br/>'+
-               this.x +': '+ this.y +'Â°C';
-         }
-      },
-      legend: {
-         layout: 'vertical',
-         align: 'right',
-         verticalAlign: 'top',
-         x: -10,
-         y: 100,
-         borderWidth: 0
-      },
-      series: [
-      <%= @profits_per_year.collect { |party, profits| "{name: '#{party.acronym}', data: #{profits.inspect}}" }.join(',') %>
-      ],
-      credits: {
-        enabled: false
-      }
-   });
-   
-   
- });
-
- </script>
- <div id="container"></div>
+        $.each(data, function(label, value) {
+            options.series.push({"name": label, "data":value});
+        });
+        // Create the chart
+        var chart = new Highcharts.Chart(options);
+    })
+            ;
+</script>
+<div id="container"></div>

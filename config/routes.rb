@@ -9,5 +9,6 @@ Investitions::Application.routes.draw do
     member do
       get 'portfolio'
     end
+    get 'profits_per_year', :on => :collection
   end
 end

@@ -10,11 +10,12 @@ class Party < ActiveRecord::Base
   end
 
   def profits_of_related_subjects_per_year
-    related_subjects.inject({}) do |profits, subject|
+    total_profits = (1993..Time.now.year).to_a.inject({}){|hash, year| hash[year] = 0; hash}
+    total_profits.merge(related_subjects.inject({}) do |profits, subject|
        profits.merge(subject.profits_per_year) do |key, summary, profit|
          summary + profit
        end
-     end
+    end)
   end
 
   def incomes
