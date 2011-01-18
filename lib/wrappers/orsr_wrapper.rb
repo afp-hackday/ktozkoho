@@ -11,11 +11,7 @@ module Wrappers
     ORSR_ICO_SEARCH = "http://orsr.sk/hladaj_ico.asp?SID=0&ICO="
 
     def reload_historical_data
-
-      Datanest::OrganisationAddress.delete_all
-      Datanest::OrganisationNameHistory.delete_all
-
-      Datanest::Organisation.find_each(:conditions => "legal_form != 'Podnikateľ-fyzická osoba-nezapísaný v obchodnom registri'") do |organisation|
+      Datanest::Organisation.find_each do |organisation|
         reload_historical_data_for_organisation(organisation)
       end
     end
@@ -24,12 +20,10 @@ module Wrappers
       historical_data = load_historical_data_for_organisation organisation
 
       historical_data.addresses.each do |addr|
-        organisation.addresses << Datanest::OrganisationAddress.new(:address => addr)
-      end if historical_data.addresses
-
-      historical_data.names.each do |addr|
-        organisation.name_histories << Datanest::OrganisationNameHistory.new(:name => addr)
-      end if historical_data.names
+        historical_data.names.each do |name|
+          organisation.historical_data.create(:name => name, :address => addr)
+        end
+      end
 
       organisation.save
     end

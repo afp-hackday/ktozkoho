@@ -5,7 +5,7 @@ module Datanest
         def link_subject
           if company
             link_organisation
-          elsif respond_to? :surname and surname and address
+          elsif respond_to? :surname and surname
             link_physical_person
           end
         end
@@ -24,23 +24,21 @@ module Datanest
         end
 
         def link_physical_person
-          if name and surname and address
-            person = try_person_fuzzy_match
+          person = try_person_fuzzy_match
 
-            if person
-              self.mapping_strategy = 'fuzzy'
-              puts "#{title} #{name} #{surname}, #{address} --> #{person.title} #{person.name} #{person.surname}, #{person.address} [by fuzzy]"
-            else
-              self.mapping_strategy = 'create_new'
-              puts "#{title} #{name} #{surname}, #{address} --> No match"
+          if person
+            self.mapping_strategy = 'fuzzy'
+            puts "#{title} #{name} #{surname}, #{address} --> #{person.title} #{person.name} #{person.surname}, #{person.address} [by fuzzy]"
+          else
+            self.mapping_strategy = 'create_new'
+            puts "#{title} #{name} #{surname}, #{address} --> No match [by create_new]"
 
-              person = Person.new(:name => name, :surname => surname,
-                                  :title => title, :address => address)
-              person.save
-            end
-
-            self.subject = person
+            person = Person.new(:name => name, :surname => surname,
+                                :title => title, :address => address)
+            person.save
           end
+
+          self.subject = person
         end
 
         def try_person_fuzzy_match
