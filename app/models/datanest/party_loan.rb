@@ -1,5 +1,5 @@
 #coding: utf-8
-class Datanest::PartyLoan < Datanest::Investment
+class Datanest::PartyLoan < Datanest::BaseInvestment
   csv           'pozicky_stranam-dump.csv'
   display_name  'Pôžičky stranám'
 

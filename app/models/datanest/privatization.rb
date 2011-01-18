@@ -1,5 +1,5 @@
 #coding: utf-8
-class Datanest::Privatization < Datanest::Basis
+class Datanest::Privatization < Datanest::BaseAdvantage
   csv            'privatizacia_predaje-dump.csv'
   display_name   'Privatizácie'
 

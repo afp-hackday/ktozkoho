@@ -1,5 +1,5 @@
 #coding: utf-8
-class Datanest::Eurofond < Datanest::Basis
+class Datanest::Eurofond < Datanest::BaseAdvantage
   additional_currency_columns :budget
 
   csv                         'eurofondy-dump.csv'

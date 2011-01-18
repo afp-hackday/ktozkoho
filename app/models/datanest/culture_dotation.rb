@@ -1,5 +1,5 @@
 #coding: utf-8
-class Datanest::CultureDotation < Datanest::Basis
+class Datanest::CultureDotation < Datanest::BaseAdvantage
   additional_currency_columns :budget, :dissaving
 
   csv                         'dotacie_kultura-dump.csv'

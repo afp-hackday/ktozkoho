@@ -23,10 +23,6 @@ class Subject < ActiveRecord::Base
     where('company % ?', name).order(order_expression).limit(1).first
   end
 
-  def advantages
-    agro_dotations + building_dotations + consolidations + culture_dotations + eurofonds + forgiven_tolls + other_dotations + privatizations + procurements
-  end
-
   def investments
     party_loans + party_sponsors
   end

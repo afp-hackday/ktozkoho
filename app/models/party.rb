@@ -1,6 +1,6 @@
 class Party < ActiveRecord::Base
-  has_many :party_loans, :class_name => "Datanest::PartyLoan"
-  has_many :party_sponsors, :class_name => "Datanest::PartySponsor"
+  has_many :party_loans, :class_name => "::Datanest::PartyLoan"
+  has_many :party_sponsors, :class_name => "::Datanest::PartySponsor"
 
   has_many :loaning_subjects, :through => :party_loans, :class_name => 'Subject', :source => :subject
   has_many :sponsoring_subjects, :through => :party_sponsors, :class_name => 'Subject', :source => :subject
@@ -26,6 +26,6 @@ class Party < ActiveRecord::Base
   end
 
   def portfolio
-    Advantage.where(:subject_id => related_subjects.collect(&:id)).group(:type).sum(:profit)
+    Advantage.where(:subject_id => related_subjects.collect(&:id)).group(:advantage_type).sum(:profit)
   end
 end

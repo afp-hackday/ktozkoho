@@ -1,5 +1,5 @@
 #coding: utf-8
-class Datanest::BuildingDotation < Datanest::Basis
+class Datanest::BuildingDotation < Datanest::BaseAdvantage
   additional_currency_columns :project_value
 
   csv                         'dotacie_vystavba-dump.csv'

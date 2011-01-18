@@ -1,5 +1,5 @@
 #coding: utf-8
-class Datanest::AgroDotation < Datanest::Basis
+class Datanest::AgroDotation < Datanest::BaseAdvantage
   csv           'polnodotacie-dump.csv'
   display_name  'Agro dotácie'
 

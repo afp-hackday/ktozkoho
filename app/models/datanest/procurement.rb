@@ -1,5 +1,5 @@
 #coding: utf-8
-class Datanest::Procurement < Datanest::Basis
+class Datanest::Procurement < Datanest::BaseAdvantage
   csv 'procurements_2-dump.csv'
   csv 'procurements-dump.csv',
         :year => 11,
