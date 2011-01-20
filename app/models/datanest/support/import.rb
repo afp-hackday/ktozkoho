@@ -12,6 +12,7 @@ module Datanest
         include Datanest::Support::Cleaning::EmptyAttributesToNull
         include Datanest::Support::Cleaning::CompanyNameNormalization
         include Datanest::Support::Cleaning::ICONormalization
+        include Datanest::Support::Cleaning::WhitespaceNormalization
       end
 
       module ClassMethods

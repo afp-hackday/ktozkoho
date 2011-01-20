@@ -7,7 +7,7 @@ class Datanest::Basis < ActiveRecord::Base
 
   belongs_to :subject
 
-  before_save :convert_financial_attributes, :empty_attributes_to_null,
+  before_save :empty_attributes_to_null, :normalize_whitespace, :convert_financial_attributes,
               :normalize_company_name, :normalize_ico, :link_subject
 
   def link_matched_subject organization, strategy
