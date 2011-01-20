@@ -28,6 +28,7 @@ module Datanest
         def default_mapping
           default_mapping = {}
           column_names.each_with_index { |column, index| default_mapping[column] = index }
+          default_mapping['id'] = nil
           default_mapping['datanest_id'] = 0;
           default_mapping
         end
