@@ -42,17 +42,19 @@ module Datanest
         end
 
         def try_person_fuzzy_match
-          order_expression = "  similarity(#{ActiveRecord::Base.quote_value(name)}, name)
-                              + similarity(#{ActiveRecord::Base.quote_value(surname)}, surname)
-                              + similarity(#{ActiveRecord::Base.quote_value(address)}, address) DESC"
+          order_expression = []
+          order_expression << "similarity(#{ActiveRecord::Base.quote_value(name)}, name)" if name
+          order_expression << "similarity(#{ActiveRecord::Base.quote_value(surname)}, surname)" if surname
+          order_expression << "similarity(#{ActiveRecord::Base.quote_value(address)}, address)" if address
 
-          connection.execute "SELECT set_limit(0.8)"
+          where_expression = []
+          where_expression << "name % #{ActiveRecord::Base.quote_value(name)}" if name
+          where_expression << "surname % #{ActiveRecord::Base.quote_value(surname)}" if surname
+          where_expression << "strip_address(address) % strip_address(#{ActiveRecord::Base.quote_value(address)})" if address
 
-          Person
-            .where('name % ?', name)
-            .where('surname % ?', surname)
-            .where("strip_address(address) % strip_address(?)", address)
-            .order(order_expression).limit(1).first
+          with_trigram_similarity(0.8) do
+            Person.where(where_expression.join(' AND ')).order(order_expression.join(' +  ') + " DESC").limit(1).first
+          end
         end
       end
     end

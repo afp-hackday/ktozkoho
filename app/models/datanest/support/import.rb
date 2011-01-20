@@ -15,11 +15,6 @@ module Datanest
       end
 
       module ClassMethods
-        def load_csv_data
-          delete_all
-          load_csvs
-        end
-
         @csvs = []
         CSV = Struct.new(:path, :mapping)
 
@@ -32,18 +27,22 @@ module Datanest
         def default_mapping
           default_mapping = {}
           column_names.each_with_index { |column, index| default_mapping[column] = index }
+          default_mapping['datanest_id'] = 0;
           default_mapping
         end
 
-        private
-
-        def load_csvs
+        def load_csv_data
           @csvs.each do |csv|
-            attributes_update = {}
+            attributes = {}
             ::CSV.foreach("#{Rails.root}/tmp/csv/#{csv.path}", :headers => true, :encoding => 'utf-8') do |row|
-              csv.mapping.each { |column, index| attributes_update[column] = row[index] }
+              csv.mapping.each { |column, index| attributes[column] = row[index] }
 
-              self.new(attributes_update).save
+              record = find_by_datanest_id(attributes['datanest_id'])
+              if record
+                record.update_attributes(attributes)
+              else
+                create(attributes)
+              end
             end
           end
         end

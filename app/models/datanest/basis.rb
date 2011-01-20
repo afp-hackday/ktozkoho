@@ -7,16 +7,8 @@ class Datanest::Basis < ActiveRecord::Base
 
   belongs_to :subject
 
-  before_create :convert_financial_attributes, :empty_attributes_to_null,
-                :normalize_company_name, :normalize_ico, :link_subject
-
-  before_update :update_same_company_records
-
-  def update_same_company_records
-    find_all_by_company_and_address(company, address).each do |record|
-      record.update_attributes(:subject_id => subject_id, :mapping_strategy => mapping_strategy)
-    end
-  end
+  before_save :convert_financial_attributes, :empty_attributes_to_null,
+              :normalize_company_name, :normalize_ico, :link_subject
 
   def link_matched_subject organization, strategy
     self.subject = Company.find_or_create_by_organization(organization)

@@ -14,7 +14,8 @@ class Datanest::Procurement < Datanest::BaseAdvantage
         :price_amount => 15,
         :currency => 16,
         :is_VAT_included => 17,
-        :source_url => 18
+        :source_url => 18,
+        :datanest_id => 1
 
   display_name   'Verejné obstarávania'
 
