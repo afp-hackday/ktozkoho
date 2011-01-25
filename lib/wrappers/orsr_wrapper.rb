@@ -12,6 +12,7 @@ module Wrappers
 
     def reload_historical_data
       Datanest::Organisation.find_each do |organisation|
+        print '.'
         reload_historical_data_for_organisation(organisation)
       end
     end
@@ -19,13 +20,14 @@ module Wrappers
     def reload_historical_data_for_organisation organisation
       historical_data = load_historical_data_for_organisation organisation
 
-      historical_data.addresses.each do |addr|
-        historical_data.names.each do |name|
-          organisation.historical_data.create(:name => name, :address => addr)
+      if historical_data
+        historical_data.addresses.each do |addr|
+          historical_data.names.each do |name|
+            organisation.historical_data.create(:name => name, :address => addr)
+          end
         end
+        organisation.save
       end
-
-      organisation.save
     end
 
     handle_asynchronously :reload_historical_data_for_organisation
@@ -37,7 +39,7 @@ module Wrappers
         end
       end
 
-      HistoricalData.new
+      nil
     end
 
     def create_search_url ico
