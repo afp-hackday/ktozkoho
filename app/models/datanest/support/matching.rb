@@ -7,7 +7,7 @@ module Datanest
       end
 
       def ico_match
-        Datanest::Organisation.where('ico = ?', ico).first if ico
+        Datanest::Organisation.where('ico = ?', ico).first if respond_to? :ico and ico
       end
 
       def like_match(name_part = company)
