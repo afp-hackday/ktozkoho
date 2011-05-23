@@ -24,6 +24,6 @@ class Datanest::Basis < ActiveRecord::Base
   end
 
   def hash
-    company.hash + address.hash + name.hash + surname.hash
+    company.hash + address.hash + (name || 0).hash + (surname || 0).hash
   end
 end
